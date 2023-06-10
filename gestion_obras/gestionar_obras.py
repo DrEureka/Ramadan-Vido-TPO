@@ -1,6 +1,6 @@
 import pandas as pd
 from peewee import *
-from modelo_orm import Obra
+from dao.modelo_orm import Obra
 import os
 
 class GestionarObra:

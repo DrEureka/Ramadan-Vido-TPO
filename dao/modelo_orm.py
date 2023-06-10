@@ -9,6 +9,7 @@ class BaseModel(Model):
     class Meta:
         database = database
 
+
 class Obra(BaseModel):
     id = AutoField(primary_key=True)
     entorno = CharField()
@@ -55,6 +56,6 @@ except peewee.OperationalError:
     print("La base de datos ya existe. No se creará una nueva.")
 else:
     # creando la db
-    
+
     database.create_tables([Obra])
     print("Se ha creado la base de datos y las tablas.")
