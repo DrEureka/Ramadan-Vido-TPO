@@ -1,6 +1,6 @@
 from peewee import *
 import peewee
-import os
+
 
 database = SqliteDatabase('obras_urbanas.db')
 

@@ -1,18 +1,19 @@
 import pandas as pd
 from peewee import *
-from dao.modelo_orm import Obra
+from dao.modelo_orm import Obra, database
 import os
 
 class GestionarObra:
     @classmethod
     def extraer_datos(cls, archivo_csv):
-        ruta_archivo = os.path.join("descarga", archivo_csv)
+        ruta_archivo = os.path.join(archivo_csv)
         # Leer el archivo CSV con pandas
         df = pd.read_csv(ruta_archivo)
 
 
         # ciclo for para chequear las columnas
         for _, row in df.iterrows():
+
             # crear una instancia para cada obra
             obra = Obra(
                 entorno=row['entorno'],

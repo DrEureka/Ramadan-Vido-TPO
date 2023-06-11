@@ -1,5 +1,6 @@
 from gestion_obras.gestionar_obras import GestionarObra
 from descarga.descarga_csv import descargar_archivo
+import os
 
 
 def menu():
@@ -24,16 +25,22 @@ def main():
 
         elif opcion == "2":
             # crear db
+
             GestionarObra.conectar_db()
             GestionarObra.mapear_orm()
             print("Base de datos creada exitosamente.")
 
         elif opcion == "3":
-            # gestionar obras
-            archivo_csv = input(
-                "Ingrese el nombre del archivo CSV a gestionar: ")
-            GestionarObra.extraer_datos(archivo_csv)
-            GestionarObra.limpiar_datos(archivo_csv)
+
+            # Gestionar obras
+
+            ruta_archivo_csv = os.path.join(os.path.dirname(
+                __file__), "descarga", "observatorio-de-obras-urbanas.csv")
+            ruta_archivo_sanitizado = os.path.join(
+                "descarga", "sanitizado_" + "observatorio-de-obras-urbanas.csv")
+
+            GestionarObra.limpiar_datos(ruta_archivo_csv)
+            GestionarObra.extraer_datos(ruta_archivo_sanitizado)
             print("Obras gestionadas exitosamente.")
 
         elif opcion == "4":
