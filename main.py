@@ -1,7 +1,6 @@
 from gestion_obras.gestionar_obras import GestionarObra
 from descarga.descarga_csv import descargar_archivo
 import os
-import time
 
 
 def menu():

@@ -4,7 +4,6 @@ from dao.modelo_orm import Obra, database
 import os
 
 class GestionarObra:
-
     @classmethod
     def extraer_datos(cls, archivo_csv):
         ruta_archivo_sanitizado = os.path.join("descarga", os.path.splitext(os.path.basename(archivo_csv))[0] + ".csv")
@@ -14,12 +13,6 @@ class GestionarObra:
 
         # ciclo for para chequear las columnas
         for _, row in df.iterrows():
-            # Verificar si la columna 'expediente-numero' existe en el DataFrame
-            if 'expediente-numero' in df.columns:
-                expediente_numero = row['expediente-numero']
-            else:
-                expediente_numero = None
-
 
             # crear una instancia para cada obra
             obra = Obra(
@@ -55,7 +48,7 @@ class GestionarObra:
                 ba_elige=row['ba_elige'],
                 link_interno=row['link_interno'],
                 pliego_descarga=row['pliego_descarga'],
-                expediente_numero=expediente_numero,
+                expediente_numero=row['expediente-numero'],
                 estudio_ambiental_descarga=row['estudio_ambiental_descarga'],
                 financiamiento=row['financiamiento']
             )
