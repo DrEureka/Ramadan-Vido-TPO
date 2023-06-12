@@ -4,15 +4,22 @@ from dao.modelo_orm import Obra, database
 import os
 
 class GestionarObra:
+
     @classmethod
     def extraer_datos(cls, archivo_csv):
-        ruta_archivo = os.path.join(archivo_csv)
+        ruta_archivo_sanitizado = os.path.join("descarga", os.path.splitext(os.path.basename(archivo_csv))[0] + ".csv")
         # Leer el archivo CSV con pandas
-        df = pd.read_csv(ruta_archivo)
+        df = pd.read_csv(ruta_archivo_sanitizado)
 
 
         # ciclo for para chequear las columnas
         for _, row in df.iterrows():
+            # Verificar si la columna 'expediente-numero' existe en el DataFrame
+            if 'expediente-numero' in df.columns:
+                expediente_numero = row['expediente-numero']
+            else:
+                expediente_numero = None
+
 
             # crear una instancia para cada obra
             obra = Obra(
@@ -48,7 +55,7 @@ class GestionarObra:
                 ba_elige=row['ba_elige'],
                 link_interno=row['link_interno'],
                 pliego_descarga=row['pliego_descarga'],
-                expediente_numero=row['expediente_numero'],
+                expediente_numero=expediente_numero,
                 estudio_ambiental_descarga=row['estudio_ambiental_descarga'],
                 financiamiento=row['financiamiento']
             )
@@ -73,7 +80,7 @@ class GestionarObra:
         df = pd.read_csv(archivo_csv)
 
         # Sanitizar los null
-        df = df.replace(r'^\s*$', None, regex=True)
+        df = df.replace(r'^\s*$', 'Sin Datos', regex=True)
 
         # salvo el archivo
         ruta_archivo_sanitizado = os.path.join("descarga", "sanitizado_" + os.path.basename(archivo_csv))
@@ -163,7 +170,10 @@ class GestionarObra:
         # guardo la nueva obra
         obra.save()
 
+
         return obra
+
+
     
     @classmethod
     def obtener_indicadores(cls):

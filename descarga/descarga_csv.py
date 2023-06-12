@@ -9,6 +9,18 @@ def descargar_archivo():
     archivo_csv = "observatorio-de-obras-urbanas.csv"
     ruta_archivo = os.path.join("descarga", archivo_csv)
 
-    response = requests.get(url)
-    with open(ruta_archivo, "wb") as archivo:
-        archivo.write(response.content)
+    if os.path.exists(ruta_archivo):
+        print("Atención: El archivo ya existe.")
+        return
+    else:
+        try:
+            response = requests.get(url)
+            response.raise_for_status()  # Lanza una excepción en caso de error en la respuesta
+
+            with open(ruta_archivo, "wb") as archivo:
+                archivo.write(response.content)
+
+            print("Archivo descargado exitosamente.")
+
+        except requests.exceptions.RequestException as e:
+            print("Error al descargar el archivo:", str(e))

@@ -1,6 +1,7 @@
 from gestion_obras.gestionar_obras import GestionarObra
 from descarga.descarga_csv import descargar_archivo
 import os
+import time
 
 
 def menu():
@@ -31,17 +32,29 @@ def main():
             print("Base de datos creada exitosamente.")
 
         elif opcion == "3":
-
+            print("Cargando datos por favor espere...")
             # Gestionar obras
+            ruta_archivo_csv = os.path.join(os.path.dirname(__file__), "descarga", "observatorio-de-obras-urbanas.csv")
+            ruta_archivo_sanitizado = os.path.join("descarga", "sanitizado_observatorio-de-obras-urbanas.csv")
 
-            ruta_archivo_csv = os.path.join(os.path.dirname(
-                __file__), "descarga", "observatorio-de-obras-urbanas.csv")
-            ruta_archivo_sanitizado = os.path.join(
-                "descarga", "sanitizado_" + "observatorio-de-obras-urbanas.csv")
-
-            GestionarObra.limpiar_datos(ruta_archivo_csv)
-            GestionarObra.extraer_datos(ruta_archivo_sanitizado)
-            print("Obras gestionadas exitosamente.")
+            try:
+                GestionarObra.limpiar_datos(ruta_archivo_csv)
+                GestionarObra.extraer_datos(ruta_archivo_sanitizado)
+                print("Carga completada.   ")
+                print("Obras gestionadas exitosamente.")
+            except Exception as e:
+                print("Se produjo un error al gestionar las obras:")
+                print(str(e))
+            # Gestionar obras
+            #
+            # ruta_archivo_csv = os.path.join(os.path.dirname(
+            #     __file__), "descarga", "observatorio-de-obras-urbanas.csv")
+            # ruta_archivo_sanitizado = os.path.join(
+            #     "descarga", "sanitizado_" + "observatorio-de-obras-urbanas.csv")
+            #
+            # GestionarObra.limpiar_datos(ruta_archivo_csv)
+            # GestionarObra.extraer_datos(ruta_archivo_sanitizado)
+            # print("Obras gestionadas exitosamente.")
 
         elif opcion == "4":
             print("Saliendo del programa.")
