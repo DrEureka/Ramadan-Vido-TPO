@@ -91,7 +91,7 @@ def main():
         elif opcion == "6":
 
 
-            print("Saliendo del programa.")
+            print("Saliendo del programa.\n")
             color = '\033[32m'
             color_reset = '\033[0m'
             print("Trabajo Práctico Final Integrador 2023\n")
