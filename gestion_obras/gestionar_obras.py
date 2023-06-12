@@ -175,10 +175,12 @@ class GestionarObra:
 
         # contamos obras y calculamos porcentaje de avance promedio
         total_obras = len(obras)
-        porcentaje_avance_promedio = sum([obra.porcentaje_avance for obra in obras]) / total_obras
-
+        porcentaje_avance_promedio = sum([float(obra.porcentaje_avance) for obra in obras if obra.porcentaje_avance.isdigit()]) / total_obras
+        color_cyan = '\033[96m'
+        color_reset = '\033[0m'
+        print(" ")
         print("Indicadores:")
-        print(f"Total de obras: {total_obras}")
-        print(f"Porcentaje de avance promedio: {porcentaje_avance_promedio}")
-
+        print(f"{color_cyan}Total de obras: {total_obras}{color_reset}")
+        print(f"{color_cyan}Porcentaje de avance promedio: {porcentaje_avance_promedio}{color_reset}")
+        print(" ")
         return obras

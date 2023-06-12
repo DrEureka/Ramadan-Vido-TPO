@@ -8,13 +8,15 @@ def menu():
     print("1. Descargar archivo")
     print("2. Crear base de datos")
     print("3. Gestionar obras")
-    print("4. Salir")
+    print("4. Obtener estadisticas de la db")
+    print("5. Crear una nueva obra")
+    print("6. Salir")
 
 
 def main():
     opcion = None
 
-    while opcion != "4":
+    while opcion != "6":
         menu()
         opcion = input("Ingrese la opción deseada: ")
 
@@ -54,8 +56,13 @@ def main():
             # GestionarObra.limpiar_datos(ruta_archivo_csv)
             # GestionarObra.extraer_datos(ruta_archivo_sanitizado)
             # print("Obras gestionadas exitosamente.")
-
         elif opcion == "4":
+            #obtengo los datos de la db
+            GestionarObra.obtener_indicadores()
+        elif opcion == "5":
+            #creo una nueva obra test....
+            GestionarObra.nueva_obra()
+        elif opcion == "6":
             print("Saliendo del programa.")
             break
 
