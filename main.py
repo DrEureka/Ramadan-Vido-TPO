@@ -1,5 +1,6 @@
 from gestion_obras.gestionar_obras import GestionarObra
 from descarga.descarga_csv import descargar_archivo
+from dao.modelo_orm import Obra
 import os
 
 
@@ -26,11 +27,13 @@ def main():
             print("Archivo descargado exitosamente.")
 
         elif opcion == "2":
-            # crear db
-
-            GestionarObra.conectar_db()
-            GestionarObra.mapear_orm()
-            print("Base de datos creada exitosamente.")
+            # crear db y verifico si existe
+            if GestionarObra.db_existe():
+                print("La base de datos ya está creada. No se realizará la creación nuevamente.")
+            else:
+                GestionarObra.conectar_db()
+                GestionarObra.mapear_orm()
+                print("Base de datos creada exitosamente.")
 
         elif opcion == "3":
             print("Cargando datos por favor espere...")
@@ -39,10 +42,13 @@ def main():
             ruta_archivo_sanitizado = os.path.join("descarga", "sanitizado_observatorio-de-obras-urbanas.csv")
 
             try:
-                GestionarObra.limpiar_datos(ruta_archivo_csv)
-                GestionarObra.extraer_datos(ruta_archivo_sanitizado)
-                print("Carga completada.   ")
-                print("Obras gestionadas exitosamente.")
+                if not Obra.select().exists():
+                    GestionarObra.limpiar_datos(ruta_archivo_csv)
+                    GestionarObra.extraer_datos(ruta_archivo_sanitizado)
+                    print("Carga completada.   ")
+                    print("Obras gestionadas exitosamente.")
+                else:
+                    print("La base de datos ya contiene registros. No se realizará la carga de datos.")
             except Exception as e:
                 print("Se produjo un error al gestionar las obras:")
                 print(str(e))

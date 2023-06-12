@@ -68,6 +68,11 @@ class GestionarObra:
         database.create_tables([Obra])
 
     @classmethod
+    def db_existe(cls):
+        db_file = 'obras_urbanas.db'
+        return os.path.exists(db_file)
+
+    @classmethod
     def limpiar_datos(cls, archivo_csv):
         # abrir el archivo csv
         df = pd.read_csv(archivo_csv)
