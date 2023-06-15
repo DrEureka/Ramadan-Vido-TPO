@@ -71,7 +71,7 @@ class GestionarObra:
         df = pd.read_csv(archivo_csv)
 
         # Sanitizar los null
-        df = df.fillna('Sin Datos')
+        #df = df.fillna('Sin Datos')
         df = df.replace(r'^\s*$', 'Sin Datos', regex=True)
 
         # salvo el archivo
