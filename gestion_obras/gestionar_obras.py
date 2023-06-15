@@ -1,6 +1,6 @@
 import pandas as pd
 from peewee import *
-from dao.modelo_orm import Obra, database
+from dao.modelo_orm import Entorno, Etapa, Tipo, AreaResponsable, Direccion, Licitacion, Contratacion, Beneficiario, ManoObra, Compromiso, Financiamiento, Obra, database
 import os
 
 class GestionarObra:
@@ -10,24 +10,20 @@ class GestionarObra:
         # Leer el archivo CSV con pandas
         df = pd.read_csv(ruta_archivo_sanitizado)
 
-
-        # ciclo for para chequear las columnas
+        # Ciclo for para chequear las columnas
         for _, row in df.iterrows():
-
-            # crear una instancia para cada obra
+            # Crear una instancia para cada obra
             obra = Obra(
-                entorno=row['entorno'],
+                entorno=Entorno.create(nombre=row['entorno']),
                 nombre=row['nombre'],
-                etapa=row['etapa'],
-                tipo=row['tipo'],
-                area_responsable=row['area_responsable'],
+                etapa=Etapa.create(nombre=row['etapa']),
+                tipo=Tipo.create(nombre=row['tipo']),
+                area_responsable=AreaResponsable.create(nombre=row['area_responsable']),
                 descripcion=row['descripcion'],
                 monto_contrato=row['monto_contrato'],
                 comuna=row['comuna'],
                 barrio=row['barrio'],
-                direccion=row['direccion'],
-                lat=row['lat'],
-                lng=row['lng'],
+                direccion=Direccion.create(nombre=row['direccion'], lat=row['lat'], lng=row['lng']),
                 fecha_inicio=row['fecha_inicio'],
                 fecha_fin_inicial=row['fecha_fin_inicial'],
                 plazo_meses=row['plazo_meses'],
@@ -36,21 +32,21 @@ class GestionarObra:
                 imagen_2=row['imagen_2'],
                 imagen_3=row['imagen_3'],
                 imagen_4=row['imagen_4'],
-                licitacion_oferta_empresa=row['licitacion_oferta_empresa'],
-                licitacion_anio=row['licitacion_anio'],
-                contratacion_tipo=row['contratacion_tipo'],
-                nro_contratacion=row['nro_contratacion'],
-                cuit_contratista=row['cuit_contratista'],
-                beneficiarios=row['beneficiarios'],
-                mano_obra=row['mano_obra'],
-                compromiso=row['compromiso'],
+                licitacion=Licitacion.create(oferta_empresa=row['licitacion_oferta_empresa'],
+                                             anio=row['licitacion_anio']),
+                contratacion=Contratacion.create(tipo=row['contratacion_tipo'],
+                                                 nro_contratacion=row['nro_contratacion'],
+                                                 cuit_contratista=row['cuit_contratista']),
+                beneficiario=Beneficiario.create(nombre=row['beneficiarios']),
+                mano_obra=ManoObra.create(descripcion=row['mano_obra']),
+                compromiso=Compromiso.create(descripcion=row['compromiso']),
                 destacada=row['destacada'],
                 ba_elige=row['ba_elige'],
                 link_interno=row['link_interno'],
                 pliego_descarga=row['pliego_descarga'],
                 expediente_numero=row['expediente-numero'],
                 estudio_ambiental_descarga=row['estudio_ambiental_descarga'],
-                financiamiento=row['financiamiento']
+                financiamiento=Financiamiento.create(descripcion=row['financiamiento'])
             )
 
             # save en db
@@ -86,10 +82,10 @@ class GestionarObra:
 
         # llevo el archivo sanitizado a extraer_datos
         cls.extraer_datos(ruta_archivo_sanitizado)
-        
+
     @classmethod
     def nueva_obra(cls):
-        # ingrese los datos de la obra
+        # Ingresar los datos de la obra
         entorno = input("Entorno: ")
         nombre = input("Nombre: ")
         etapa = input("Etapa: ")
@@ -126,20 +122,18 @@ class GestionarObra:
         estudio_ambiental_descarga = input("Descarga de estudio ambiental: ")
         financiamiento = input("Financiamiento: ")
 
-        # creo instancia de obra
+        # Crear instancia de obra
         obra = Obra(
-            entorno=entorno,
+            entorno=Entorno.create(nombre=entorno),
             nombre=nombre,
-            etapa=etapa,
-            tipo=tipo,
-            area_responsable=area_responsable,
+            etapa=Etapa.create(nombre=etapa),
+            tipo=Tipo.create(nombre=tipo),
+            area_responsable=AreaResponsable.create(nombre=area_responsable),
             descripcion=descripcion,
             monto_contrato=monto_contrato,
             comuna=comuna,
             barrio=barrio,
-            direccion=direccion,
-            lat=lat,
-            lng=lng,
+            direccion=Direccion.create(nombre=direccion, lat=lat, lng=lng),
             fecha_inicio=fecha_inicio,
             fecha_fin_inicial=fecha_fin_inicial,
             plazo_meses=plazo_meses,
@@ -148,21 +142,19 @@ class GestionarObra:
             imagen_2=imagen_2,
             imagen_3=imagen_3,
             imagen_4=imagen_4,
-            licitacion_oferta_empresa=licitacion_oferta_empresa,
-            licitacion_anio=licitacion_anio,
-            contratacion_tipo=contratacion_tipo,
-            nro_contratacion=nro_contratacion,
-            cuit_contratista=cuit_contratista,
-            beneficiarios=beneficiarios,
-            mano_obra=mano_obra,
-            compromiso=compromiso,
+            licitacion=Licitacion.create(oferta_empresa=licitacion_oferta_empresa, anio=licitacion_anio),
+            contratacion=Contratacion.create(tipo=contratacion_tipo, nro_contratacion=nro_contratacion,
+                                             cuit_contratista=cuit_contratista),
+            beneficiario=Beneficiario.create(nombre=beneficiarios),
+            mano_obra=ManoObra.create(descripcion=mano_obra),
+            compromiso=Compromiso.create(descripcion=compromiso),
             destacada=destacada,
             ba_elige=ba_elige,
             link_interno=link_interno,
             pliego_descarga=pliego_descarga,
             expediente_numero=expediente_numero,
             estudio_ambiental_descarga=estudio_ambiental_descarga,
-            financiamiento=financiamiento
+            financiamiento=Financiamiento.create(descripcion=financiamiento)
         )
 
         # guardo la nueva obra

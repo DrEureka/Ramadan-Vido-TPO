@@ -1,6 +1,6 @@
 from gestion_obras.gestionar_obras import GestionarObra
 from descarga.descarga_csv import descargar_archivo
-from dao.modelo_orm import Obra
+from dao.modelo_orm import Entorno, Etapa, Tipo, AreaResponsable, Direccion, Licitacion, Contratacion, Beneficiario, ManoObra, Compromiso, Financiamiento, Obra
 import sys
 import time
 import os
