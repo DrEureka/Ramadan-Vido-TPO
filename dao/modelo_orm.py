@@ -101,25 +101,11 @@ class Obra(BaseModel):
 
 
 def create_tables():
-    with database:
+    with database.atomic():
         database.create_tables([
             Entorno, Etapa, Tipo, AreaResponsable, Direccion, Licitacion, Contratacion,
             Beneficiario, ManoObra, Compromiso, Financiamiento, Obra
         ])
-    tablas_totales = 12 #total de tablas actuales
-    batch_size = 3
-    num_batch = (tablas_totales + batch_size -1)
-
-    for batch in range(num_batch):
-        start = batch * batch_size
-        end = (batch + 1) * batch_size
-
-        with database.atomic():
-            database.create_tables([
-                Entorno, Etapa, Tipo, AreaResponsable, Direccion, Licitacion, Contratacion,
-                Beneficiario, ManoObra, Compromiso, Financiamiento, Obra
-            ][start:end])
-            print(f"Se creo las tablas {start+1} de {end}.")
 
 
 try:

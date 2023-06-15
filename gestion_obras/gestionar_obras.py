@@ -1,7 +1,9 @@
 import pandas as pd
 from peewee import *
-from dao.modelo_orm import Entorno, Etapa, Tipo, AreaResponsable, Direccion, Licitacion, Contratacion, Beneficiario, ManoObra, Compromiso, Financiamiento, Obra, database
+from dao.modelo_orm import Entorno, Etapa, Tipo, AreaResponsable, Direccion, Licitacion, Contratacion, Beneficiario, \
+    ManoObra, Compromiso, Financiamiento, Obra, database
 import os
+
 
 class GestionarObra:
     @classmethod
@@ -11,6 +13,7 @@ class GestionarObra:
         df = pd.read_csv(ruta_archivo_sanitizado)
 
         # Ciclo for para chequear las columnas
+
         for _, row in df.iterrows():
             # Crear una instancia para cada obra
             obra = Obra(
@@ -51,12 +54,6 @@ class GestionarObra:
 
             # save en db
             obra.save()
-
-    @classmethod
-    def conectar_db(cls):
-        # conecto
-        database = SqliteDatabase('obras_urbanas.db')
-        database.connect()
 
     @classmethod
     def mapear_orm(cls):
@@ -161,11 +158,8 @@ class GestionarObra:
         # guardo la nueva obra
         obra.save()
 
-
         return obra
 
-
-    
     @classmethod
     def obtener_indicadores(cls):
         # tomo las obras de la db
@@ -173,7 +167,8 @@ class GestionarObra:
 
         # contamos obras y calculamos porcentaje de avance promedio
         total_obras = len(obras)
-        porcentaje_avance_promedio = sum([float(obra.porcentaje_avance) for obra in obras if obra.porcentaje_avance.isdigit()]) / total_obras
+        porcentaje_avance_promedio = sum(
+            [float(obra.porcentaje_avance) for obra in obras if obra.porcentaje_avance.isdigit()]) / total_obras
         color_cyan = '\033[96m'
         color_reset = '\033[0m'
         print(" ")
