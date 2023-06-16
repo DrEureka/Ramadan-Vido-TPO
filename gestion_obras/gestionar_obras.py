@@ -21,7 +21,7 @@ class GestionarObra:
                 entorno=Entorno.create(zona=row['entorno']),
                 nombre=row['nombre'],
                 etapa=Etapa.create(tipoEtapa=row['etapa']),
-                tipo=Tipo.create(tipo=row['tipo']),
+                tipo=Tipo.create(tipoEdificio=row['tipo']),
                 area_responsable=AreaResponsable.create(ministerio=row['area_responsable']),
                 descripcion=row['descripcion'],
                 monto_contrato=row['monto_contrato'],
@@ -73,6 +73,7 @@ class GestionarObra:
 
         # Sanitizar los null
         #df = df.fillna('Sin Datos')
+        df = df.where(df.notna(), None)
         df = df.replace(r'^\s*$', 'Sin Datos', regex=True)
 
         # salvo el archivo
@@ -126,7 +127,7 @@ class GestionarObra:
             entorno=Entorno.create(zona=entorno),
             nombre=nombre,
             etapa=Etapa.create(tipoEtapa=etapa),
-            tipo=Tipo.create(tipo=tipo),
+            tipo=Tipo.create(tipo=tipoEdificio),
             area_responsable=AreaResponsable.create(ministerio=area_responsable),
             descripcion=descripcion,
             monto_contrato=monto_contrato,

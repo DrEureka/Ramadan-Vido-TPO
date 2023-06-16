@@ -20,7 +20,7 @@ class Etapa(BaseModel):
 
 class Tipo(BaseModel):
     id = AutoField(primary_key=True)
-    tipo = CharField(null=True)
+    tipoEdificio = CharField(null=True)
 
 
 class AreaResponsable(BaseModel):
