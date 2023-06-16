@@ -163,13 +163,17 @@ class GestionarObra:
 
     @classmethod
     def obtener_indicadores(cls):
-        # tomo las obras de la db
+        # Tomar las obras de la db
         obras = Obra.select()
 
-        # contamos obras y calculamos porcentaje de avance promedio
+        # Contar obras y calcular porcentaje
         total_obras = len(obras)
-        porcentaje_avance_promedio = sum(
-            [float(obra.porcentaje_avance) for obra in obras if obra.porcentaje_avance.isdigit()]) / total_obras
+        porcentaje_avance_total = sum(
+            [float(obra.porcentaje_avance) for obra in obras if
+             isinstance(obra.porcentaje_avance, str) and obra.porcentaje_avance.isdigit()]
+        )
+        porcentaje_avance_promedio = porcentaje_avance_total / total_obras if total_obras > 0 else 0
+
         color_cyan = '\033[96m'
         color_reset = '\033[0m'
         print(" ")
@@ -177,4 +181,5 @@ class GestionarObra:
         print(f"{color_cyan}Total de obras: {total_obras}{color_reset}")
         print(f"{color_cyan}Porcentaje de avance promedio: {porcentaje_avance_promedio}{color_reset}")
         print(" ")
+
         return obras
