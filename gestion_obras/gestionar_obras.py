@@ -15,6 +15,7 @@ class GestionarObra:
         # Ciclo for para chequear las columnas
 
         for _, row in df.iterrows():
+
             # Crear una instancia para cada obra
             obra = Obra(
                 entorno=Entorno.create(nombre=row['entorno']),
