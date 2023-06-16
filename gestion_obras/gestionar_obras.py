@@ -1,7 +1,9 @@
 import pandas as pd
 from peewee import *
-from dao.modelo_orm import Entorno, Etapa, Tipo, AreaResponsable, Direccion, Licitacion, Contratacion, Beneficiario, ManoObra, Compromiso, Financiamiento, Obra, database
+from dao.modelo_orm import Entorno, Etapa, Tipo, AreaResponsable, Direccion, Licitacion, Contratacion, Beneficiario, \
+    ManoObra, Compromiso, Financiamiento, Obra, database
 import os
+
 
 class GestionarObra:
     @classmethod
@@ -11,7 +13,9 @@ class GestionarObra:
         df = pd.read_csv(ruta_archivo_sanitizado)
 
         # Ciclo for para chequear las columnas
+
         for _, row in df.iterrows():
+
             # Crear una instancia para cada obra
             obra = Obra(
                 entorno=Entorno.create(nombre=row['entorno']),
@@ -53,12 +57,6 @@ class GestionarObra:
             obra.save()
 
     @classmethod
-    def conectar_db(cls):
-        # conecto
-        database = SqliteDatabase('obras_urbanas.db')
-        database.connect()
-
-    @classmethod
     def mapear_orm(cls):
         # creamos las tablas
         database.create_tables([Obra])
@@ -74,6 +72,7 @@ class GestionarObra:
         df = pd.read_csv(archivo_csv)
 
         # Sanitizar los null
+        #df = df.fillna('Sin Datos')
         df = df.replace(r'^\s*$', 'Sin Datos', regex=True)
 
         # salvo el archivo
@@ -160,19 +159,21 @@ class GestionarObra:
         # guardo la nueva obra
         obra.save()
 
-
         return obra
 
-
-    
     @classmethod
     def obtener_indicadores(cls):
-        # tomo las obras de la db
+        # Tomar las obras de la db
         obras = Obra.select()
 
-        # contamos obras y calculamos porcentaje de avance promedio
+        # Contar obras y calcular porcentaje
         total_obras = len(obras)
-        porcentaje_avance_promedio = sum([float(obra.porcentaje_avance) for obra in obras if obra.porcentaje_avance.isdigit()]) / total_obras
+        porcentaje_avance_total = sum(
+            [float(obra.porcentaje_avance) for obra in obras if
+             isinstance(obra.porcentaje_avance, str) and obra.porcentaje_avance.isdigit()]
+        )
+        porcentaje_avance_promedio = porcentaje_avance_total / total_obras if total_obras > 0 else 0
+
         color_cyan = '\033[96m'
         color_reset = '\033[0m'
         print(" ")
@@ -180,4 +181,5 @@ class GestionarObra:
         print(f"{color_cyan}Total de obras: {total_obras}{color_reset}")
         print(f"{color_cyan}Porcentaje de avance promedio: {porcentaje_avance_promedio}{color_reset}")
         print(" ")
+
         return obras

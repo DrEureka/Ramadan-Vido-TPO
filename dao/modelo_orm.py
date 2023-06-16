@@ -10,83 +10,83 @@ class BaseModel(Model):
 
 class Entorno(BaseModel):
     id = AutoField(primary_key=True)
-    nombre = CharField()
+    nombre = CharField(null=True)
 
 
 class Etapa(BaseModel):
     id = AutoField(primary_key=True)
-    nombre = CharField()
+    nombre = CharField(null=True)
 
 
 class Tipo(BaseModel):
     id = AutoField(primary_key=True)
-    nombre = CharField()
+    nombre = CharField(null=True)
 
 
 class AreaResponsable(BaseModel):
     id = AutoField(primary_key=True)
-    nombre = CharField()
+    nombre = CharField(null=True)
 
 
 class Direccion(BaseModel):
     id = AutoField(primary_key=True)
-    nombre = CharField()
-    lat = CharField()
-    lng = CharField()
+    nombre = CharField(null=True)
+    lat = CharField(null=True)
+    lng = CharField(null=True)
 
 
 class Licitacion(BaseModel):
     id = AutoField(primary_key=True)
-    oferta_empresa = CharField()
-    anio = CharField()
+    oferta_empresa = CharField(null=True)
+    anio = CharField(null=True)
 
 
 class Contratacion(BaseModel):
     id = AutoField(primary_key=True)
-    tipo = CharField()
-    nro_contratacion = CharField()
-    cuit_contratista = CharField()
+    tipo = CharField(null=True)
+    nro_contratacion = CharField(null=True)
+    cuit_contratista = CharField(null=True)
 
 
 class Beneficiario(BaseModel):
     id = AutoField(primary_key=True)
-    nombre = CharField()
+    nombre = CharField(null=True)
 
 
 class ManoObra(BaseModel):
     id = AutoField(primary_key=True)
-    descripcion = CharField()
+    descripcion = CharField(null=True)
 
 
 class Compromiso(BaseModel):
     id = AutoField(primary_key=True)
-    descripcion = CharField()
+    descripcion = CharField(null=True)
 
 
 class Financiamiento(BaseModel):
     id = AutoField(primary_key=True)
-    descripcion = CharField()
+    descripcion = CharField(null=True)
 
 
 class Obra(BaseModel):
     id = AutoField(primary_key=True)
-    nombre = CharField()
-    descripcion = CharField()
-    monto_contrato = CharField()
-    fecha_inicio = CharField()
-    fecha_fin_inicial = CharField()
-    plazo_meses = CharField()
-    porcentaje_avance = CharField()
-    imagen_1 = CharField()
-    imagen_2 = CharField()
-    imagen_3 = CharField()
-    imagen_4 = CharField()
-    destacada = CharField()
-    ba_elige = CharField()
-    link_interno = CharField()
-    pliego_descarga = CharField()
-    expediente_numero = CharField()
-    estudio_ambiental_descarga = CharField()
+    nombre = CharField(null=True)
+    descripcion = CharField(null=True)
+    monto_contrato = IntegerField(null=True)
+    fecha_inicio = DateField(null=True)
+    fecha_fin_inicial = DateField(null=True)
+    plazo_meses = IntegerField(null=True)
+    porcentaje_avance = IntegerField(null=True)
+    imagen_1 = CharField(null=True)
+    imagen_2 = CharField(null=True)
+    imagen_3 = CharField(null=True)
+    imagen_4 = CharField(null=True)
+    destacada = CharField(null=True)
+    ba_elige = CharField(null=True)
+    link_interno = CharField(null=True)
+    pliego_descarga = CharField(null=True)
+    expediente_numero = CharField(null=True)
+    estudio_ambiental_descarga = CharField(null=True)
     financiamiento = ForeignKeyField(Financiamiento, backref='obras')
     entorno = ForeignKeyField(Entorno, backref='obras')
     etapa = ForeignKeyField(Etapa, backref='obras')
@@ -101,7 +101,7 @@ class Obra(BaseModel):
 
 
 def create_tables():
-    with database:
+    with database.atomic():
         database.create_tables([
             Entorno, Etapa, Tipo, AreaResponsable, Direccion, Licitacion, Contratacion,
             Beneficiario, ManoObra, Compromiso, Financiamiento, Obra
