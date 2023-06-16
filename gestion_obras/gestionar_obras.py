@@ -129,7 +129,7 @@ class GestionarObra:
             entorno=Entorno.create(zona=entorno),
             nombre=nombre,
             etapa=Etapa.create(tipoEtapa=etapa),
-            tipo=Tipo.create(tipo=tipoEdificio),
+            tipo=Tipo.create(tipoEdificio=tipo),
             area_responsable=AreaResponsable.create(ministerio=area_responsable),
             descripcion=descripcion,
             monto_contrato=monto_contrato,
