@@ -98,7 +98,7 @@ def main():
             print("Materia: Desarrollo de Sistemas Orientados a Objetos")
             print("Curso: 1er Año")
             print("Profesor: Eduardo Iberti")
-            texto = (color + "Programa realizado por: Daniel, Ramadan.\nVido Viloria, Alessandrio Gabrielle."+color_reset)
+            texto = (color + "Programa realizado por: Daniel, Ramadan.\nAlessandrio Gabrielle, Vido Viloria."+color_reset)
             maquina_escribir(texto)
 
             break

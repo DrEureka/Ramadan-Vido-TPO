@@ -77,7 +77,7 @@ class GestionarObra:
         df = pd.read_csv(archivo_csv)
 
         # Sanitizar los null
-        # df = df.fillna('Sin Datos')
+        df = df.fillna('Sin Datos')
         df = df.where(df.notna(), None)
         df = df.replace(r'^\s*$', 'Sin Datos', regex=True)
 
@@ -93,7 +93,7 @@ class GestionarObra:
         # Ingresar los datos de la obra
         entorno = input("Entorno: ")
         nombre = input("Nombre: ")
-        etapa = input("Etapa: ")
+        etapa = input("Etapa: ") # validador // else no exite
         tipo = input("Tipo: ")
         area_responsable = input("Área responsable: ")
         descripcion = input("Descripción: ")
@@ -189,3 +189,4 @@ class GestionarObra:
         print(" ")
 
         return obras
+#imgenes

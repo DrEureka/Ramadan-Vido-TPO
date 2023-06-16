@@ -15,6 +15,7 @@ class Obra():
 
     def iniciar_obra(self):
         pass
+
     def actualizar_porcentaje_avance(self):
         pass
 
