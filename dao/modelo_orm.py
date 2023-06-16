@@ -10,52 +10,52 @@ class BaseModel(Model):
 
 class Entorno(BaseModel):
     id = AutoField(primary_key=True)
-    nombre = CharField(null=True)
+    zona = CharField(null=True)
 
 
 class Etapa(BaseModel):
     id = AutoField(primary_key=True)
-    nombre = CharField(null=True)
+    tipoEtapa = CharField(null=True)
 
 
 class Tipo(BaseModel):
     id = AutoField(primary_key=True)
-    nombre = CharField(null=True)
+    tipo = CharField(null=True)
 
 
 class AreaResponsable(BaseModel):
     id = AutoField(primary_key=True)
-    nombre = CharField(null=True)
+    ministerio = CharField(null=True)
 
 
 class Direccion(BaseModel):
     id = AutoField(primary_key=True)
-    nombre = CharField(null=True)
-    lat = CharField(null=True)
-    lng = CharField(null=True)
+    ubicacion = CharField(null=True)
+    lat = FloatField(null=True)
+    lng = FloatField(null=True)
 
 
 class Licitacion(BaseModel):
     id = AutoField(primary_key=True)
     oferta_empresa = CharField(null=True)
-    anio = CharField(null=True)
+    anio = IntegerField(null=True)
 
 
 class Contratacion(BaseModel):
     id = AutoField(primary_key=True)
     tipo = CharField(null=True)
     nro_contratacion = CharField(null=True)
-    cuit_contratista = CharField(null=True)
+    cuit_contratista = IntegerField(null=True)
 
 
 class Beneficiario(BaseModel):
     id = AutoField(primary_key=True)
-    nombre = CharField(null=True)
+    tipo = CharField(null=True)
 
 
 class ManoObra(BaseModel):
     id = AutoField(primary_key=True)
-    descripcion = CharField(null=True)
+    cantidad = CharField(null=True)
 
 
 class Compromiso(BaseModel):
