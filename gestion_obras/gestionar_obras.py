@@ -13,8 +13,10 @@ class GestionarObra:
         df = pd.read_csv(ruta_archivo_sanitizado)
 
         # Ciclo for para chequear las columnas
-
-        for _, row in df.iterrows():
+        total_filas = len(df)
+        for i, (_, row) in enumerate(df.iterrows(), start=1):
+            # Mostrar el progreso
+            print(f"Procesando obra {i} de {total_filas}")
 
             # Crear una instancia para cada obra
             obra = Obra(
