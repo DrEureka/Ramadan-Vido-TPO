@@ -1,6 +1,6 @@
 import pandas as pd
 from peewee import *
-from dao.modelo_orm import Entorno, Etapa, Tipo, AreaResponsable, Direccion, Licitacion, Contratacion, Beneficiario, \
+from dao.modelo_orm import Entorno, Etapa, Imagenes, Tipo, AreaResponsable, Direccion, Licitacion, Contratacion, Beneficiario, \
     ManoObra, Compromiso, Financiamiento, Obra, database
 import os
 
@@ -21,7 +21,10 @@ class GestionarObra:
             # Mostrar el progreso
             print(f"Procesando obra {i} de {total_filas}")
 
+            imagen = Imagenes.create(imagen_1=row['imagen_1'], imagen_2=row['imagen_2'], imagen_3=row['imagen_3'],
+                                     imagen_4=row['imagen_4'])
             # Crear una instancia para cada obra
+
             obra = Obra(
                 entorno=Entorno.create(zona=row['entorno']),
                 nombre=row['nombre'],
@@ -37,10 +40,10 @@ class GestionarObra:
                 fecha_fin_inicial=row['fecha_fin_inicial'],
                 plazo_meses=row['plazo_meses'],
                 porcentaje_avance=row['porcentaje_avance'],
-                imagen_1=row['imagen_1'],
-                imagen_2=row['imagen_2'],
-                imagen_3=row['imagen_3'],
-                imagen_4=row['imagen_4'],
+                imagen_1=imagen,
+                imagen_2=imagen,
+                imagen_3=imagen,
+                imagen_4=imagen,
                 licitacion=Licitacion.create(oferta_empresa=row['licitacion_oferta_empresa'],
                                              anio=row['licitacion_anio']),
                 contratacion=Contratacion.create(tipo=row['contratacion_tipo'],
@@ -57,7 +60,7 @@ class GestionarObra:
                 estudio_ambiental_descarga=row['estudio_ambiental_descarga'],
                 financiamiento=Financiamiento.create(descripcion=row['financiamiento'])
             )
-
+            print("Guardando obra...")
             # save en db
             obra.save()
 
@@ -93,8 +96,91 @@ class GestionarObra:
         # Ingresar los datos de la obra
         entorno = input("Entorno: ")
         nombre = input("Nombre: ")
-        etapa = input("Etapa: ") # validador // else no exite
-        tipo = input("Tipo: ")
+        #Opciones para etapa
+        print("Selecciona una opción para la etapa:")
+        print("1. Sin iniciar")
+        print("2. Pausada")
+        print("3. Finalizado")
+        print("4. Mostrar más opciones")
+        opcion_etapa = input("Opción: ")
+
+        if opcion_etapa == "1":
+            etapa = "Sin iniciar"
+        elif opcion_etapa == "2":
+            etapa = "Pausada"
+        elif opcion_etapa == "3":
+            etapa = "Finalizado"
+        elif opcion_etapa == "4":
+            # Mostrar más opciones
+            print("5. Proyecto finalizado")
+            print("6. Proyecto")
+            print("7. Prox. Licitación")
+            print("8. Proc. Adm")
+            print("9. Neutralizada")
+            print("10. Licitación")
+            print("11. Inicial")
+            print("12. Etapa 3 - frente 1")
+            print("13. En proyecto")
+            print("14. En obra")
+            print("15. En licitación")
+            print("16. En ejecución")
+            print("17. Desestimada")
+            print("18. Adjudicada")
+            opcion_etapa_mas = input("Opción: ")
+
+            if opcion_etapa_mas == "5":
+                etapa = "Proyecto finalizado"
+            elif opcion_etapa_mas == "6":
+                etapa = "Proyecto"
+            elif opcion_etapa_mas == "7":
+                etapa = "Prox. Licitación"
+            elif opcion_etapa_mas == "8":
+                etapa = "Proc. Adm"
+            elif opcion_etapa_mas == "9":
+                etapa = "Neutralizada"
+            elif opcion_etapa_mas == "10":
+                etapa = "Licitación"
+            elif opcion_etapa_mas == "11":
+                etapa = "Inicial"
+            elif opcion_etapa_mas == "12":
+                etapa = "Etapa 3 - frente 1"
+            elif opcion_etapa_mas == "13":
+                etapa = "En proyecto"
+            elif opcion_etapa_mas == "14":
+                etapa = "En obra"
+            elif opcion_etapa_mas == "15":
+                etapa = "En licitación"
+            elif opcion_etapa_mas == "16":
+                etapa = "En ejecución"
+            elif opcion_etapa_mas == "17":
+                etapa = "Desestimada"
+            elif opcion_etapa_mas == "18":
+                etapa = "Adjudicada"
+            else:
+                etapa = "Sin Datos"
+        else:
+            etapa = "Sin Datos"
+        #Opciones para tipo
+        print("Selecciona una opción para el tipo:")
+        print("1. Sin Datos")
+        print("2. Infraestructura")
+        print("3. Hidráulica e Infraestructura/ Espacio Público")
+        print("4. Instalaciones")
+        print("5. Espacio Público")
+        opcion_tipo = input("Opción: ")
+
+        if opcion_tipo == "1":
+            tipo = "Sin Datos"
+        elif opcion_tipo == "2":
+            tipo = "Infraestructura"
+        elif opcion_tipo == "3":
+            tipo = "Hidráulica e Infraestructura/ Espacio Público"
+        elif opcion_tipo == "4":
+            tipo = "Instalaciones"
+        elif opcion_tipo == "5":
+            tipo = "Espacio Público"
+        else:
+            tipo = "Sin Datos"
         area_responsable = input("Área responsable: ")
         descripcion = input("Descripción: ")
         monto_contrato = input("Monto de contrato: ")
@@ -107,10 +193,17 @@ class GestionarObra:
         fecha_fin_inicial = input("Fecha de finalización inicial: ")
         plazo_meses = input("Plazo en meses: ")
         porcentaje_avance = input("Porcentaje de avance: ")
-        imagen_1 = input("Imagen 1: ")
-        imagen_2 = input("Imagen 2: ")
-        imagen_3 = input("Imagen 3: ")
-        imagen_4 = input("Imagen 4: ")
+        agregar_imagenes = input("¿Desea agregar imágenes? (Si/No): ")
+        if agregar_imagenes.lower() == "si":
+            imagen_1 = input("Imagen 1: ")
+            imagen_2 = input("Imagen 2: ")
+            imagen_3 = input("Imagen 3: ")
+            imagen_4 = input("Imagen 4: ")
+        else:
+            imagen_1 = "Sin Datos"
+            imagen_2 = "Sin Datos"
+            imagen_3 = "Sin Datos"
+            imagen_4 = "Sin Datos"
         licitacion_oferta_empresa = input("Licitación oferta empresa: ")
         licitacion_anio = input("Año de licitación: ")
         contratacion_tipo = input("Tipo de contratación: ")
@@ -126,7 +219,7 @@ class GestionarObra:
         expediente_numero = input("Número de expediente: ")
         estudio_ambiental_descarga = input("Descarga de estudio ambiental: ")
         financiamiento = input("Financiamiento: ")
-
+        imagenes = Imagenes.create(imagen_1=imagen_1, imagen_2=imagen_2, imagen_3=imagen_3, imagen_4=imagen_4)
         # Crear instancia de obra
         obra = Obra(
             entorno=Entorno.create(zona=entorno),
@@ -143,10 +236,10 @@ class GestionarObra:
             fecha_fin_inicial=fecha_fin_inicial,
             plazo_meses=plazo_meses,
             porcentaje_avance=porcentaje_avance,
-            imagen_1=imagen_1,
-            imagen_2=imagen_2,
-            imagen_3=imagen_3,
-            imagen_4=imagen_4,
+            imagen_1=imagenes,
+            imagen_2=imagenes,
+            imagen_3=imagenes,
+            imagen_4=imagenes,
             licitacion=Licitacion.create(oferta_empresa=licitacion_oferta_empresa, anio=licitacion_anio),
             contratacion=Contratacion.create(tipo=contratacion_tipo, nro_contratacion=nro_contratacion,
                                              cuit_contratista=cuit_contratista),
@@ -167,17 +260,19 @@ class GestionarObra:
 
         return obra
 
-    @classmethod
-    def obtener_indicadores(cls):
-        # Tomar las obras de la db
+    @staticmethod
+    def obtener_indicadores():
         obras = Obra.select()
 
-        # Contar obras y calcular porcentaje
         total_obras = len(obras)
-        porcentaje_avance_total = sum(
-            [float(obra.porcentaje_avance) for obra in obras if
-             isinstance(obra.porcentaje_avance, str) and obra.porcentaje_avance.isdigit()]
-        )
+        porcentaje_avance_values = [obra.porcentaje_avance for obra in obras]
+        porcentaje_avance_filtered = [float(obra.porcentaje_avance) for obra in obras if
+                                      isinstance(obra.porcentaje_avance,
+                                                 (int, float)) and 0 <= obra.porcentaje_avance <= 100]
+       #  print("Valores de porcentaje_avance:", porcentaje_avance_values)
+       # print("Valores filtrados:", porcentaje_avance_filtered)
+
+        porcentaje_avance_total = sum(porcentaje_avance_filtered)
         porcentaje_avance_promedio = porcentaje_avance_total / total_obras if total_obras > 0 else 0
 
         color_cyan = '\033[96m'
@@ -189,4 +284,3 @@ class GestionarObra:
         print(" ")
 
         return obras
-#imgenes
