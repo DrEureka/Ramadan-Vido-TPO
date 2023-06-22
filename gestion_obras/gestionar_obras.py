@@ -1,6 +1,7 @@
 import pandas as pd
 from peewee import *
-from dao.modelo_orm import Entorno, Etapa, Imagenes, Tipo, AreaResponsable, Direccion, Licitacion, Contratacion, Beneficiario, \
+from dao.modelo_orm import Entorno, Etapa, Imagenes, Tipo, AreaResponsable, Direccion, Licitacion, Contratacion, \
+    Beneficiario, \
     ManoObra, Compromiso, Financiamiento, Obra, database
 import os
 
@@ -96,7 +97,7 @@ class GestionarObra:
         # Ingresar los datos de la obra
         entorno = input("Entorno: ")
         nombre = input("Nombre: ")
-        #Opciones para etapa
+        # Opciones para etapa
         print("Selecciona una opción para la etapa:")
         print("1. Sin iniciar")
         print("2. Pausada")
@@ -160,7 +161,7 @@ class GestionarObra:
                 etapa = "Sin Datos"
         else:
             etapa = "Sin Datos"
-        #Opciones para tipo
+        # Opciones para tipo
         print("Selecciona una opción para el tipo:")
         print("1. Sin Datos")
         print("2. Infraestructura")
@@ -220,6 +221,92 @@ class GestionarObra:
         estudio_ambiental_descarga = input("Descarga de estudio ambiental: ")
         financiamiento = input("Financiamiento: ")
         imagenes = Imagenes.create(imagen_1=imagen_1, imagen_2=imagen_2, imagen_3=imagen_3, imagen_4=imagen_4)
+        # Verifico si ingreso un campo vacio y le doy una leyenda "Sin Datos"
+        if entorno.strip() == "":
+            entorno = "Sin Datos"
+        if nombre.strip() == "":
+            nombre = "Sin Datos"
+        if area_responsable.strip() == "":
+            area_responsable = "Sin Datos"
+
+        if descripcion.strip() == "":
+            descripcion = "Sin Datos"
+
+        if monto_contrato.strip() == "":
+            monto_contrato = "Sin Datos"
+
+        if comuna.strip() == "":
+            comuna = "Sin Datos"
+
+        if barrio.strip() == "":
+            barrio = "Sin Datos"
+
+        if direccion.strip() == "":
+            direccion = "Sin Datos"
+
+        if lat.strip() == "":
+            lat = "Sin Datos"
+
+        if lng.strip() == "":
+            lng = "Sin Datos"
+
+        if fecha_inicio.strip() == "":
+            fecha_inicio = "Sin Datos"
+
+        if fecha_fin_inicial.strip() == "":
+            fecha_fin_inicial = "Sin Datos"
+
+        if plazo_meses.strip() == "":
+            plazo_meses = "Sin Datos"
+
+        if porcentaje_avance.strip() == "":
+            porcentaje_avance = "Sin Datos"
+
+        if licitacion_oferta_empresa.strip() == "":
+            licitacion_oferta_empresa = "Sin Datos"
+
+        if licitacion_anio.strip() == "":
+            licitacion_anio = "Sin Datos"
+
+        if contratacion_tipo.strip() == "":
+            contratacion_tipo = "Sin Datos"
+
+        if nro_contratacion.strip() == "":
+            nro_contratacion = "Sin Datos"
+
+        if cuit_contratista.strip() == "":
+            cuit_contratista = "Sin Datos"
+
+        if beneficiarios.strip() == "":
+            beneficiarios = "Sin Datos"
+
+        if mano_obra.strip() == "":
+            mano_obra = "Sin Datos"
+
+        if compromiso.strip() == "":
+            compromiso = "Sin Datos"
+
+        if destacada.strip() == "":
+            destacada = "Sin Datos"
+
+        if ba_elige.strip() == "":
+            ba_elige = "Sin Datos"
+
+        if link_interno.strip() == "":
+            link_interno = "Sin Datos"
+
+        if pliego_descarga.strip() == "":
+            pliego_descarga = "Sin Datos"
+
+        if expediente_numero.strip() == "":
+            expediente_numero = "Sin Datos"
+
+        if estudio_ambiental_descarga.strip() == "":
+            estudio_ambiental_descarga = "Sin Datos"
+
+        if financiamiento.strip() == "":
+            financiamiento = "Sin Datos"
+
         # Crear instancia de obra
         obra = Obra(
             entorno=Entorno.create(zona=entorno),
@@ -269,8 +356,8 @@ class GestionarObra:
         porcentaje_avance_filtered = [float(obra.porcentaje_avance) for obra in obras if
                                       isinstance(obra.porcentaje_avance,
                                                  (int, float)) and 0 <= obra.porcentaje_avance <= 100]
-       #  print("Valores de porcentaje_avance:", porcentaje_avance_values)
-       # print("Valores filtrados:", porcentaje_avance_filtered)
+        #  print("Valores de porcentaje_avance:", porcentaje_avance_values)
+        # print("Valores filtrados:", porcentaje_avance_filtered)
 
         porcentaje_avance_total = sum(porcentaje_avance_filtered)
         porcentaje_avance_promedio = porcentaje_avance_total / total_obras if total_obras > 0 else 0
