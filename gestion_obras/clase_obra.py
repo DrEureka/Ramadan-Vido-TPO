@@ -1,6 +1,7 @@
-from dao import Obra
+from dao.modelo_orm import Entorno, Etapa, Tipo, AreaResponsable, Direccion, Licitacion, Contratacion, Beneficiario, \
+    ManoObra, Compromiso, Financiamiento, Obra, database
 
-class Obra():
+class Obrasee():
     def __init__(self) -> None:
         pass
 
@@ -30,3 +31,10 @@ class Obra():
 
     def rescindir_obra(self):
         pass
+
+    def obtener_avance_por_id(id):
+        try:
+            avance = Obra.select(Obra.etapa).where(Obra.id == id).scalar()
+            return avance
+        except avance.DoesNotExist:
+            return None
