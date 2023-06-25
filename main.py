@@ -1,5 +1,5 @@
 from gestion_obras.gestionar_obras import GestionarObra
-from gestion_obras.clase_obra import Obras
+from manipulacionObras.clase_obra import Obras
 from descarga.descarga_csv import descargar_archivo
 
 from gestion_obras.clase_obra import Entorno, Etapa, Tipo, AreaResponsable, Direccion, Licitacion, Contratacion, Beneficiario, ManoObra, Compromiso, Financiamiento, Obra
