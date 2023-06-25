@@ -128,8 +128,20 @@ def main():
                     print(idAvance)
                 elif opcionOb == "2":
                     buscarNombre = input("Ingrese el nombre de la obra: ")
+
+                    print()
                     buscarObra = Obras.obtener_avance_por_nombre(buscarNombre)
-                    print(buscarObra)
+                    cantidadBusqueda = len(buscarObra)
+
+                    print("Se encontraron Registros: ", cantidadBusqueda)
+                    if buscarObra:
+                        for resultado in buscarObra:
+                            print(f"ID: {resultado['id']}")
+                            print(f"Nombre: {resultado['nombre']}")
+                            print(f"Avance: {resultado['avance']}")
+                            print()
+                    else:
+                        print("No se encontraron resultados.")
 
 
         elif opcion == "7":
