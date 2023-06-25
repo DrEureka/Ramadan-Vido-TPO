@@ -1,8 +1,8 @@
 from gestion_obras.gestionar_obras import GestionarObra
-from manipulacionObras.clase_obra import Obras
+from gestion_obras.manipulacionObras import Obras
 from descarga.descarga_csv import descargar_archivo
 
-from gestion_obras.clase_obra import Entorno, Etapa, Tipo, AreaResponsable, Direccion, Licitacion, Contratacion, Beneficiario, ManoObra, Compromiso, Financiamiento, Obra
+from gestion_obras.manipulacionObras import Entorno, Etapa, Tipo, AreaResponsable, Direccion, Licitacion, Contratacion, Beneficiario, ManoObra, Compromiso, Financiamiento, Obra
 
 import sys
 import time
