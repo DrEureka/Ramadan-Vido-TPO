@@ -63,10 +63,13 @@ class Obras:
         if porcentaje_avance > 0:
             print('No está permitido retroceder de etapa.')
         else:
+            database.close()
+            database.connect()
             obra_actualizada = Obra.get_by_id(obra.id)
             Etapa.update(tipoEtapa='Sin iniciar').where(Etapa.id == obra_actualizada.id).execute()
             obra_actualizada.porcentaje_avance = porcentaje_avance
             obra_actualizada.save()
+            database.close()
             print('Proyecto iniciado con éxito.')
 
     def iniciar_contratacion(self):
