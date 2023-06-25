@@ -202,6 +202,6 @@ def main():
             errorRojo = '\033[31m'
             print_color("Opción inválida. Por favor, ingrese una opción válida.", errorRojo)
 
-#tst $$$
+#tst
 if __name__ == "__main__":
     main()
