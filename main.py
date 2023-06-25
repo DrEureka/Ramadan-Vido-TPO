@@ -89,7 +89,7 @@ def main():
             try:
                 if not Obra.select().exists():
                     GestionarObra.limpiar_datos(ruta_archivo_csv)
-                    GestionarObra.extraer_datos(ruta_archivo_sanitizado)
+                 #   GestionarObra.extraer_datos(ruta_archivo_sanitizado)
                     todoOkVerde = '\033[32m'
                     print_color("Carga completada.   ", todoOkVerde)
                     print_color("Obras gestionadas exitosamente.", todoOkVerde)
