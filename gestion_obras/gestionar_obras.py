@@ -112,7 +112,7 @@ class GestionarObra:
         if opcion_etapa == "1":
             etapa = "Sin iniciar"
         elif opcion_etapa == "2":
-            etapa = "Pausada"
+            etapa = "Proyecto"
         elif opcion_etapa == "3":
             etapa = "Finalizado"
         elif opcion_etapa == "4":
@@ -136,7 +136,7 @@ class GestionarObra:
             if opcion_etapa_mas == "5":
                 etapa = "Proyecto finalizado"
             elif opcion_etapa_mas == "6":
-                etapa = "Proyecto"
+                etapa = "Pausada"
             elif opcion_etapa_mas == "7":
                 etapa = "Prox. Licitación"
             elif opcion_etapa_mas == "8":
