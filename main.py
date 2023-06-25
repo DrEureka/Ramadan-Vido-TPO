@@ -109,7 +109,6 @@ def main():
         elif opcion == "4":
             #obtengo los datos de la db
             GestionarObra.obtener_indicadores()
-            
         elif opcion == "5":
             #creo una nueva obra test....
             GestionarObra.nueva_obra()

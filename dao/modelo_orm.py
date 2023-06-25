@@ -68,6 +68,14 @@ class Financiamiento(BaseModel):
     descripcion = CharField(null=True)
 
 
+class Imagenes(BaseModel):
+    id = AutoField(primary_key=True)
+    imagen_1 = CharField(null=True)
+    imagen_2 = CharField(null=True)
+    imagen_3 = CharField(null=True)
+    imagen_4 = CharField(null=True)
+
+
 class Obra(BaseModel):
     id = AutoField(primary_key=True)
     nombre = CharField(null=True)
@@ -77,10 +85,10 @@ class Obra(BaseModel):
     fecha_fin_inicial = DateField(null=True)
     plazo_meses = IntegerField(null=True)
     porcentaje_avance = IntegerField(null=True)
-    imagen_1 = CharField(null=True)
-    imagen_2 = CharField(null=True)
-    imagen_3 = CharField(null=True)
-    imagen_4 = CharField(null=True)
+    imagen_1 = ForeignKeyField(Imagenes, backref='obras', null=True)
+    imagen_2 = ForeignKeyField(Imagenes, backref='obras', null=True)
+    imagen_3 = ForeignKeyField(Imagenes, backref='obras', null=True)
+    imagen_4 = ForeignKeyField(Imagenes, backref='obras', null=True)
     destacada = CharField(null=True)
     ba_elige = CharField(null=True)
     link_interno = CharField(null=True)
@@ -248,7 +256,7 @@ def create_tables():
     with database.atomic():
         database.create_tables([
             Entorno, Etapa, Tipo, AreaResponsable, Direccion, Licitacion, Contratacion,
-            Beneficiario, ManoObra, Compromiso, Financiamiento, Obra
+            Beneficiario, ManoObra, Compromiso, Financiamiento, Obra, Imagenes
         ])
 
 
