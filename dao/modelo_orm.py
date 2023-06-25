@@ -99,9 +99,6 @@ class Obra(BaseModel):
     mano_obra = ForeignKeyField(ManoObra, backref='obras')
     compromiso = ForeignKeyField(Compromiso, backref='obras')
 
-    class Meta:
-        database = database
-
     def __init__(self, avance, porcentajeAvance) -> None:
         self.avance = avance
         self.porcentajeAvance = porcentajeAvance

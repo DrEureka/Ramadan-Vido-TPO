@@ -132,32 +132,32 @@ def main():
                 if opcionEd == "1":
                     idColocar = int(input("Ingrese el id:"))
                     try:
-                        obra = Obra.get_by_id(Obra.id == idColocar)
-                    except:
-                        print("No se encontró ninguna obra con el ID especificado.")
+                        obra = Obra.select().join(Etapa).where(Obra.id == idColocar).scalar()
+                    except Exception as i:
+                        print("No se encontró ninguna obra con el ID especificado.", i)
                         return
                     if obra:
                         opcionAv = None
                         while opcionAv != "0":
                             subMenuAvances()
                             opcionAv = input('Ingrese la opci[on deseada: ')
-                            if opcionAv == 1:
+                            if opcionAv == "1":
                                 obra.nuevo_proyecto()
-                            elif opcionAv == 2:
+                            elif opcionAv == "2":
                                 obra.iniciar_contratacion()
-                            elif opcionAv == 3:
+                            elif opcionAv == "3":
                                 obra.adjudicar_obra()
-                            elif opcionAv == 4:
+                            elif opcionAv == "4":
                                 obra.iniciar_obra()
-                            elif opcionAv == 5:
+                            elif opcionAv == "5":
                                 obra.actualizar_porcentaje_avance()
-                            elif opcionAv == 6:
+                            elif opcionAv == "6":
                                 obra.incrementar_plazo()
-                            elif opcionAv == 7:
+                            elif opcionAv == "7":
                                 obra.incrementar_mano_obra()
-                            elif opcionAv == 8:
+                            elif opcionAv == "8":
                                 obra.finalizar_obra()
-                            elif opcionAv == 9:
+                            elif opcionAv == "9":
                                 obra.rescindir_obra()
                             else:
                                 errorRojo = '\033[31m'
