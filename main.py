@@ -162,23 +162,23 @@ def main():
                             subMenuAvances()
                             opcionAv = input('Ingrese la opci[on deseada: ')
                             if opcionAv == "1":
-                                obra.nuevo_proyecto()
+                                Obras.nuevo_proyecto()
                             elif opcionAv == "2":
-                                obra.iniciar_contratacion()
+                                Obras.iniciar_contratacion()
                             elif opcionAv == "3":
-                                obra.adjudicar_obra()
+                                Obras.adjudicar_obra()
                             elif opcionAv == "4":
-                                obra.iniciar_obra()
+                                Obras.iniciar_obra()
                             elif opcionAv == "5":
-                                obra.actualizar_porcentaje_avance()
+                                Obras.actualizar_porcentaje_avance()
                             elif opcionAv == "6":
-                                obra.incrementar_plazo()
+                                Obras.incrementar_plazo()
                             elif opcionAv == "7":
-                                obra.incrementar_mano_obra()
+                                Obras.incrementar_mano_obra()
                             elif opcionAv == "8":
-                                obra.finalizar_obra()
+                                Obras.finalizar_obra()
                             elif opcionAv == "9":
-                                obra.rescindir_obra()
+                                Obras.rescindir_obra()
                             else:
                                 errorRojo = '\033[31m'
                                 print_color("Opción inválida. Por favor, ingrese una opción válida.", errorRojo)
