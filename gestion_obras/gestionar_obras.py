@@ -367,9 +367,15 @@ class GestionarObra:
 
         porcentaje_avance_total = sum(porcentaje_avance_filtered)
         porcentaje_avance_promedio = porcentaje_avance_total / total_obras if total_obras > 0 else 0
+        print("")
+        # listado de areas responsables
+        areas_responsables = AreaResponsable.select(AreaResponsable.ministerio).distinct()
+        print("Listado de todas las áreas responsables:")
+        for area in areas_responsables:
+            print(f"Responsables: {area.ministerio}")
 
+        print("")
         # listado de los tipos de obra
-        # Listado de todos los tipos de obra
         tipos_obra = [(obra.id, obra.nombre) for obra in Obra.select()]
         tipos_obra = sorted(list(set(tipos_obra)), key=lambda x: x[0])  # Ordenar por el primer elemento (ID)
         print("Listado de todos los tipos de obra:")
@@ -391,10 +397,17 @@ class GestionarObra:
             Obra.select()
                 .join(Etapa, JOIN.INNER, on=(Obra.etapa_id == Etapa.id))
                 .join(Direccion, JOIN.INNER, on=(Etapa.id == Direccion.id))
-                .where(Direccion.comuna == 1, Etapa.tipoEtapa == "Finalizado")
+                .where(Direccion.comuna == 1, Etapa.tipoEtapa == "Finalizada")
                 .count()
         )
         print(f"Cantidad de obras 'Finalizadas' en la comuna 1: {cantidad_obras_finalizadas_comuna1}")
+        print("")
+        # cantidad de obras finalizadas con plazo 24 meses
+
+        cantidad_obras_finalizadas_plazo_24m = Obra.select().join(Etapa).where(Etapa.tipoEtapa == "Finalizada",
+                                                                   Obra.plazo_meses <= 24).count()
+        print(
+            f"Cantidad de obras 'Finalizadas' en un plazo menor o igual a 24 meses: {cantidad_obras_finalizadas_plazo_24m}")
 
         color_cyan = '\033[96m'
         color_reset = '\033[0m'
