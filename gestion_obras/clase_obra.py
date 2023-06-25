@@ -1,9 +1,13 @@
 from dao.modelo_orm import Entorno, Etapa, Tipo, AreaResponsable, Direccion, Licitacion, Contratacion, Beneficiario, \
     ManoObra, Compromiso, Financiamiento, Obra, database
 
-class Obrasee():
-    def __init__(self) -> None:
-        pass
+
+
+
+class Obras():
+    def __init__(self, avance, porcentajeAvance) -> None:
+        self.avance = avance
+        self.porcentajeAvance = porcentajeAvance
 
     def nuevo_proyecto(self):
         if self.porcentajeAvance > 0:
@@ -88,7 +92,9 @@ class Obrasee():
 
     def obtener_avance_por_id(id):
         try:
-            avance = Obra.select(Obra.etapa).where(Obra.id == id).scalar()
-            return avance
-        except avance.DoesNotExist:
+            verAvance = Obra.select().join(Etapa).where(Obra.id == id).scalar()
+
+
+            return verAvance
+        except Obra.DoesNotExist:
             return None

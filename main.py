@@ -1,6 +1,9 @@
 from gestion_obras.gestionar_obras import GestionarObra
+from gestion_obras.clase_obra import Obras
 from descarga.descarga_csv import descargar_archivo
-from dao.modelo_orm import Entorno, Etapa, Tipo, AreaResponsable, Direccion, Licitacion, Contratacion, Beneficiario, ManoObra, Compromiso, Financiamiento, Obra
+
+from gestion_obras.clase_obra import Entorno, Etapa, Tipo, AreaResponsable, Direccion, Licitacion, Contratacion, Beneficiario, ManoObra, Compromiso, Financiamiento, Obra
+
 import sys
 import time
 import os
@@ -120,7 +123,7 @@ def main():
                 opcionOb = input("Ingrese la opción deseada: ")
                 if opcionOb == "1":
                     idColocar = int(input("Ingrese el id:"))
-                    idAvance = Obra.obtener_avance_por_id(idColocar)
+                    idAvance = Obras.obtener_avance_por_id(idColocar)
                     print(idAvance)
 
         elif opcion == "7":
