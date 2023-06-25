@@ -104,7 +104,7 @@ class GestionarObra:
         # Opciones para etapa
         print("Selecciona una opción para la etapa")
         print("1. Sin iniciar")
-        print("2. Pausada")
+        print("2. Proyecto")
         print("3. Finalizado")
         print("4. Mostrar más opciones")
         opcion_etapa = input("Opción: ")
@@ -118,7 +118,7 @@ class GestionarObra:
         elif opcion_etapa == "4":
             # Mostrar más opciones
             print("5. Proyecto finalizado")
-            print("6. Proyecto")
+            print("6. Pausada")
             print("7. Prox. Licitación")
             print("8. Proc. Adm")
             print("9. Neutralizada")
