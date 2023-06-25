@@ -108,6 +108,8 @@ class Obra(BaseModel):
     compromiso = ForeignKeyField(Compromiso, backref='obras')
 
 
+
+
 def create_tables():
     with database.atomic():
         database.create_tables([

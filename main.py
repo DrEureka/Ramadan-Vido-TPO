@@ -1,6 +1,9 @@
 from gestion_obras.gestionar_obras import GestionarObra
+from gestion_obras.clase_obra import Obras
 from descarga.descarga_csv import descargar_archivo
-from dao.modelo_orm import Entorno, Etapa, Tipo, AreaResponsable, Direccion, Licitacion, Contratacion, Beneficiario, ManoObra, Compromiso, Financiamiento, Obra
+
+from gestion_obras.clase_obra import Entorno, Etapa, Tipo, AreaResponsable, Direccion, Licitacion, Contratacion, Beneficiario, ManoObra, Compromiso, Financiamiento, Obra
+
 import sys
 import time
 import os
@@ -24,13 +27,37 @@ def menu():
     print("3. Gestionar obras")
     print("4. Obtener estadisticas de la db")
     print("5. Crear una nueva obra")
-    print("6. Salir")
+    print("6. Obtener avance de una obra")
+    print("7. Editar avance de obra")
+    print("8. Salir")
 
+def subMenuObAvance():
+    print('Elija una opción:')
+    print('1. filtrar avance por id')
+    print('2. Atras')
+
+def subMenuEdAvance():
+    print('Elija una opción:')
+    print('1. Coloque el id de la obra a la que desea editar el avance')
+    print('2. Atras')
+
+def subMenuAvances():
+    print('Elija una opción:')
+    print('1. Nuevo proyecto')
+    print('2. Iniciar contrataci[on]')
+    print('3. Adjudicar obra')
+    print('4. Iniciar obra')
+    print('5. Actualizar porcentaje de avance')
+    print('6. Incrementar plazo')
+    print('7. Incrementar mano de obra')
+    print('8. Finalizar obra')
+    print('9. Rescindir obra')
+    print('0. Atras')
 
 def main():
     opcion = None
 
-    while opcion != "6":
+    while opcion != "8":
         menu()
         opcion = input("Ingrese la opción deseada: ")
 
@@ -84,14 +111,63 @@ def main():
             # print("Obras gestionadas exitosamente.")
         elif opcion == "4":
             #obtengo los datos de la db
-            gestion_obras = GestionarObra()
-            gestion_obras.obtener_indicadores()
+            GestionarObra.obtener_indicadores()
         elif opcion == "5":
             #creo una nueva obra test....
             GestionarObra.nueva_obra()
+
         elif opcion == "6":
+            opcionOb = None
+            while opcionOb != "2":
+                subMenuObAvance()
+                opcionOb = input("Ingrese la opción deseada: ")
+                if opcionOb == "1":
+                    idColocar = int(input("Ingrese el id:"))
+                    idAvance = Obras.obtener_avance_por_id(idColocar)
+                    print(idAvance)
 
-
+        elif opcion == "7":
+            opcionEd = None
+            while opcionEd != "2":
+                subMenuEdAvance()
+                opcionEd = input("Ingrese la opción deseada: ")
+                if opcionEd == "1":
+                    idColocar = int(input("Ingrese el id:"))
+                    try:
+                        obra = Obra.select().join(Etapa).where(Obra.id == idColocar).scalar()
+                    except Exception as i:
+                        print("No se encontró ninguna obra con el ID especificado.", i)
+                        return
+                    if obra:
+                        opcionAv = None
+                        while opcionAv != "0":
+                            subMenuAvances()
+                            opcionAv = input('Ingrese la opci[on deseada: ')
+                            if opcionAv == "1":
+                                obra.nuevo_proyecto()
+                            elif opcionAv == "2":
+                                obra.iniciar_contratacion()
+                            elif opcionAv == "3":
+                                obra.adjudicar_obra()
+                            elif opcionAv == "4":
+                                obra.iniciar_obra()
+                            elif opcionAv == "5":
+                                obra.actualizar_porcentaje_avance()
+                            elif opcionAv == "6":
+                                obra.incrementar_plazo()
+                            elif opcionAv == "7":
+                                obra.incrementar_mano_obra()
+                            elif opcionAv == "8":
+                                obra.finalizar_obra()
+                            elif opcionAv == "9":
+                                obra.rescindir_obra()
+                            else:
+                                errorRojo = '\033[31m'
+                                print_color("Opción inválida. Por favor, ingrese una opción válida.", errorRojo) 
+                    else: 
+                        print("La obra no existe")
+                    
+        elif opcion == "8":
             print("Saliendo del programa.\n")
             color = '\033[32m'
             color_reset = '\033[0m'
@@ -106,7 +182,7 @@ def main():
 
         else:
             errorRojo = '\033[31m'
-            print_color("Opción inválida. Por favor, ingrese una opción válida.", errorRojo)
+            print_color("Opción inválida. Por favor, ingrese una opción válida.", errorRojo) 
 
 
 if __name__ == "__main__":

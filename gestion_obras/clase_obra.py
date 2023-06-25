@@ -1,60 +1,13 @@
-from peewee import *
-from dao.modelo_orm import Entorno, Etapa, Imagenes, Tipo, AreaResponsable, Direccion, Licitacion, Contratacion, \
-    Beneficiario, \
+from dao.modelo_orm import Entorno, Etapa, Tipo, AreaResponsable, Direccion, Licitacion, Contratacion, Beneficiario, \
     ManoObra, Compromiso, Financiamiento, Obra, database
 
 
-class ObraMod:
+
+
+class Obras():
     def __init__(self, avance, porcentajeAvance) -> None:
         self.avance = avance
         self.porcentajeAvance = porcentajeAvance
-
-    @property
-    def avance(self):
-        return self.etapa.tipoEtapa
-
-    @property
-    def porcentajeAvance(self):
-        if self.etapa.tipoEtapa == 'Nuevo proyecto':
-            Obra.porcentaje_avance = 0
-            Obra.porcentaje_avance.save()
-            return 0
-        elif self.etapa.tipoEtapa == 'Inicio de contratación':
-            Obra.porcentaje_avance = 10
-            Obra.porcentaje_avance.save()
-            return 10
-        elif self.etapa.tipoEtapa == 'Adjudicación de obra':
-            Obra.porcentaje_avance = 20
-            Obra.porcentaje_avance.save()
-            return 20
-        elif self.etapa.tipoEtapa == 'Inicio de obra':
-            Obra.porcentaje_avance = 30
-            Obra.porcentaje_avance.save()
-            return 30
-        elif self.etapa.tipoEtapa == 'Actualización de porcentaje de avance':
-            Obra.porcentaje_avance = 40
-            Obra.porcentaje_avance.save()
-            return 40
-        elif self.etapa.tipoEtapa == 'Incremento de plazo':
-            Obra.porcentaje_avance = 60
-            Obra.porcentaje_avance.save()
-            return 60
-        elif self.etapa.tipoEtapa == 'Incremento de mano de obra':
-            Obra.porcentaje_avance = 80
-            Obra.porcentaje_avance.save()
-            return 80
-        elif self.etapa.tipoEtapa == 'Finalizada':
-            Obra.porcentaje_avance = 100
-            Obra.porcentaje_avance.save()
-            return 100
-        elif self.etapa.tipoEtapa == 'Obra rescindida':
-            Obra.porcentaje_avance = 0
-            Obra.porcentaje_avance.save()
-            return 0
-        else:
-            Obra.porcentaje_avance = 0
-            Obra.porcentaje_avance.save()
-            return 0
 
     def nuevo_proyecto(self):
         if self.porcentajeAvance > 0:
@@ -135,16 +88,17 @@ class ObraMod:
             print('Avance exitoso.')
 
     def rescindir_obra(self):
-        if self.porcentajeAvance < 0:
-            print('No es posible rescindir la obra.')
-        else:
-            self.etapa.tipoEtapa = 'Obra rescindida'
-            self.etapa.save()
-            print('Obra rescindida.')
+        pass
 
-    def obtener_avance_por_id(idObra):
+    def obtener_avance_por_id(id):
         try:
-            avance = Obra.select(Obra.etapa).where(Obra.id == idObra).scalar()
-            return avance
-        except avance.DoesNotExist:
+            existeAvance = (
+                Obra.select(Etapa.tipoEtapa).join(Etapa).where(Obra.id == id)
+            )
+            if existeAvance.exists():
+                verAvance = existeAvance.get().etapa.tipoEtapa
+                return verAvance
+            else:
+                return None
+        except Obra.DoesNotExist:
             return None
