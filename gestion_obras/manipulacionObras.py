@@ -13,7 +13,7 @@ class Obras:
     #      return self.etapa.tipoEtapa
 
     @property
-    def porcentajeAvances(self):
+    def porcentajeAvance(self):
         if self.etapa.tipoEtapa == 'Sin iniciar':
             self.porcentaje_avance = 0
             self.save()
@@ -160,11 +160,11 @@ class Obras:
         except Obra.DoesNotExist:
             return None
 
-    def obtener_avance_por_nombre(nombre):
+    def obtener_avance_por_nombre(self):
         try:
             existeObra = (
                 Obra.select(Obra.id, Obra.nombre, Etapa.tipoEtapa).join(Etapa).where(
-                    Obra.nombre ** f'%{nombre}%').order_by(fn.LENGTH(Obra.nombre))
+                    Obra.nombre ** f'%{self}%').order_by(fn.LENGTH(Obra.nombre))
             )
             resultados = []
             for obra in existeObra:
