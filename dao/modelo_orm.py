@@ -30,6 +30,8 @@ class AreaResponsable(BaseModel):
 
 class Direccion(BaseModel):
     id = AutoField(primary_key=True)
+    comuna = IntegerField(null=True)
+    barrio = CharField(null=True)
     ubicacion = CharField(null=True)
     lat = FloatField(null=True)
     lng = FloatField(null=True)

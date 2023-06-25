@@ -12,6 +12,7 @@ class GestionarObra:
 
     @classmethod
     def extraer_datos(cls, archivo_csv):
+        database.close()
         database.connect()
         ruta_archivo_sanitizado = os.path.join("descarga", os.path.splitext(os.path.basename(archivo_csv))[0] + ".csv")
         # Leer el archivo CSV con pandas
@@ -35,9 +36,8 @@ class GestionarObra:
                 area_responsable=AreaResponsable.create(ministerio=row['area_responsable']),
                 descripcion=row['descripcion'],
                 monto_contrato=row['monto_contrato'],
-                comuna=row['comuna'],
-                barrio=row['barrio'],
-                direccion=Direccion.create(ubicacion=row['direccion'], lat=row['lat'], lng=row['lng']),
+                direccion=Direccion.create(comuna=row['comuna'], barrio=row['barrio'], ubicacion=row['direccion'],
+                                           lat=row['lat'], lng=row['lng']),
                 fecha_inicio=row['fecha_inicio'],
                 fecha_fin_inicial=row['fecha_fin_inicial'],
                 plazo_meses=row['plazo_meses'],
@@ -62,9 +62,10 @@ class GestionarObra:
                 estudio_ambiental_descarga=row['estudio_ambiental_descarga'],
                 financiamiento=Financiamiento.create(descripcion=row['financiamiento'])
             )
+
             print("Guardando obra...")
             # save en db
-            
+
             obra.save()
             database.close()
 
@@ -98,8 +99,8 @@ class GestionarObra:
     @classmethod
     def nueva_obra(cls):
         # Ingresar los datos de la obra
-        entorno = input("Entorno: ")
-        nombre = input("Nombre: ")
+        entorno = input("Zona del entorno: ")
+        nombre = input("Nombre de la obra: ")
         # Opciones para etapa
         print("Selecciona una opción para la etapa")
         print("1. Sin iniciar")
@@ -111,7 +112,7 @@ class GestionarObra:
         if opcion_etapa == "1":
             etapa = "Sin iniciar"
         elif opcion_etapa == "2":
-            etapa = "Pausada"
+            etapa = "Proyecto"
         elif opcion_etapa == "3":
             etapa = "Finalizado"
         elif opcion_etapa == "4":
@@ -135,7 +136,7 @@ class GestionarObra:
             if opcion_etapa_mas == "5":
                 etapa = "Proyecto finalizado"
             elif opcion_etapa_mas == "6":
-                etapa = "Proyecto"
+                etapa = "Pausada"
             elif opcion_etapa_mas == "7":
                 etapa = "Prox. Licitación"
             elif opcion_etapa_mas == "8":
@@ -321,8 +322,8 @@ class GestionarObra:
             area_responsable=AreaResponsable.create(ministerio=area_responsable),
             descripcion=descripcion,
             monto_contrato=monto_contrato,
-            comuna=comuna,
-            barrio=barrio,
+            comuna=Comuna.create(nombre=comuna),
+            barrio=Barrio.create(nombre=barrio),
             direccion=Direccion.create(ubicacion=direccion, lat=lat, lng=lng),
             fecha_inicio=fecha_inicio,
             fecha_fin_inicial=fecha_fin_inicial,
@@ -346,20 +347,17 @@ class GestionarObra:
             estudio_ambiental_descarga=estudio_ambiental_descarga,
             financiamiento=Financiamiento.create(descripcion=financiamiento)
         )
-
-        # guardo la nueva obra
-        
         obra.save()
         database.close()
-
-        return obra
+        print("Obra creada exitosamente.")
 
     @staticmethod
     def obtener_indicadores():
         database.close()
         database.connect()
         obras = Obra.select()
-
+        color_cyan = '\033[96m'
+        color_reset = '\033[0m'
         total_obras = len(obras)
         porcentaje_avance_values = [obra.porcentaje_avance for obra in obras]
         porcentaje_avance_filtered = [float(obra.porcentaje_avance) for obra in obras if
@@ -370,13 +368,52 @@ class GestionarObra:
 
         porcentaje_avance_total = sum(porcentaje_avance_filtered)
         porcentaje_avance_promedio = porcentaje_avance_total / total_obras if total_obras > 0 else 0
+        print("")
+        # listado de areas responsables
+        areas_responsables = AreaResponsable.select(AreaResponsable.ministerio).distinct()
+        print(f"{color_cyan}Listado de todas las áreas responsables:{color_reset}")
+        for area in areas_responsables:
+            print(f"Responsables: {area.ministerio}")
 
-        color_cyan = '\033[96m'
-        color_reset = '\033[0m'
+        print("")
+        # listado de los tipos de obra
+        tipos_obra = [(obra.id, obra.nombre) for obra in Obra.select()]
+        tipos_obra = sorted(list(set(tipos_obra)), key=lambda x: x[0])  # Ordenar por el primer elemento (ID)
+        print(f"{color_cyan}Listado de todos los tipos de obra:{color_reset}")
+        for tipo in tipos_obra:
+            print(f"ID: {tipo[0]}, Nombre de la obra: {tipo[1]}")
+        print("")
+
+        # Listado de todos los barrios pertenecientes a las comunas 1, 2 y 3
+        comunas = [1, 2, 3]
+        barrios = [obra.direccion.barrio for obra in
+                   Obra.select().join(Direccion).where(Direccion.id << comunas)]
+        barrios = list(set(barrios))
+        print(f"{color_cyan}Listado de todos los barrios pertenecientes a las comunas 1, 2 y 3:{color_reset} ")
+        for barrio in barrios:
+            print(barrio)
+        print("")
+        # cantidad de obras "FINALIZADAS" en comuna 1
+        cantidad_obras_finalizadas_comuna1 = (
+            Obra.select()
+                .join(Etapa, JOIN.INNER, on=(Obra.etapa_id == Etapa.id))
+                .join(Direccion, JOIN.INNER, on=(Etapa.id == Direccion.id))
+                .where(Direccion.comuna == 1, Etapa.tipoEtapa == "Finalizada")
+                .count()
+        )
+        print(f"{color_cyan}Cantidad de obras 'Finalizadas' en la comuna 1:{color_reset} {cantidad_obras_finalizadas_comuna1}")
+        print("")
+        # cantidad de obras finalizadas con plazo 24 meses
+
+        cantidad_obras_finalizadas_plazo_24m = Obra.select().join(Etapa).where(Etapa.tipoEtapa == "Finalizada",
+                                                                   Obra.plazo_meses <= 24).count()
+        print(
+            f"{color_cyan}Cantidad de obras 'Finalizadas' en un plazo menor o igual a 24 meses: {color_reset}{cantidad_obras_finalizadas_plazo_24m}")
+
+
         print(" ")
-        print("Indicadores")
-        print(f"{color_cyan}Total de obras: {total_obras}{color_reset}")
-        print(f"{color_cyan}Porcentaje de avance promedio: {porcentaje_avance_promedio}{color_reset}")
+        print(f"{color_cyan}Total de obras:{color_reset} {total_obras}")
+        print(f"{color_cyan}Porcentaje de avance promedio en todas las obras:{color_reset} {porcentaje_avance_promedio}")
         print(" ")
         database.close()
         return obras
