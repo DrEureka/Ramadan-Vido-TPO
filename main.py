@@ -32,9 +32,10 @@ def menu():
     print("8. Salir")
 
 def subMenuObAvance():
-    print('Elija una opción:')
+    print('Elija una opción: ')
     print('1. filtrar avance por id')
-    print('2. Atras')
+    print('2. filtrar por nombre de obra')
+    print('3. Atras')
 
 def subMenuEdAvance():
     print('Elija una opción:')
@@ -118,13 +119,18 @@ def main():
 
         elif opcion == "6":
             opcionOb = None
-            while opcionOb != "2":
+            while opcionOb != "3":
                 subMenuObAvance()
                 opcionOb = input("Ingrese la opción deseada: ")
                 if opcionOb == "1":
-                    idColocar = int(input("Ingrese el id:"))
+                    idColocar = int(input("Ingrese el id: "))
                     idAvance = Obras.obtener_avance_por_id(idColocar)
                     print(idAvance)
+                elif opcionOb == "2":
+                    buscarNombre = input("Ingrese el nombre de la obra: ")
+                    buscarObra = Obras.obtener_avance_por_nombre(buscarNombre)
+                    print(buscarObra)
+
 
         elif opcion == "7":
             opcionEd = None
@@ -163,10 +169,10 @@ def main():
                                 obra.rescindir_obra()
                             else:
                                 errorRojo = '\033[31m'
-                                print_color("Opción inválida. Por favor, ingrese una opción válida.", errorRojo) 
-                    else: 
+                                print_color("Opción inválida. Por favor, ingrese una opción válida.", errorRojo)
+                    else:
                         print("La obra no existe")
-                    
+
         elif opcion == "8":
             print("Saliendo del programa.\n")
             color = '\033[32m'
@@ -182,7 +188,7 @@ def main():
 
         else:
             errorRojo = '\033[31m'
-            print_color("Opción inválida. Por favor, ingrese una opción válida.", errorRojo) 
+            print_color("Opción inválida. Por favor, ingrese una opción válida.", errorRojo)
 
 
 if __name__ == "__main__":

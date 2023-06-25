@@ -1,5 +1,6 @@
 from dao.modelo_orm import Entorno, Etapa, Tipo, AreaResponsable, Direccion, Licitacion, Contratacion, Beneficiario, \
     ManoObra, Compromiso, Financiamiento, Obra, database
+from peewee import fn
 
 
 
@@ -100,5 +101,21 @@ class Obras():
                 return verAvance
             else:
                 return None
+        except Obra.DoesNotExist:
+            return None
+
+    def obtener_avance_por_nombre(nombre):
+        try:
+            existeObra = (
+                Obra.select(Obra.id, Obra.nombre, Etapa.tipoEtapa).join(Etapa).where(Obra.nombre ** f'%{nombre}%').order_by(fn.LENGTH(Obra.nombre))
+            )
+            resultados = []
+            for obra in existeObra:
+                resultados.append({
+                    'id': obra.id,
+                    'nombre': obra.nombre,
+                    'avance': obra.etapa.tipoEtapa
+                })
+            return resultados
         except Obra.DoesNotExist:
             return None
