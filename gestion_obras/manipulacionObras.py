@@ -10,6 +10,53 @@ class Obras():
         self.avance = avance
         self.porcentajeAvance = porcentajeAvance
 
+    @property
+    def avance(self):
+        return self.etapa.tipoEtapa
+
+    @property
+    def porcentajeAvance(self):
+        if self.etapa.tipoEtapa == 'Nuevo proyecto':
+            Obra.porcentaje_avance = 0
+            Obra.porcentaje_avance.save()
+            return 0
+        elif self.etapa.tipoEtapa == 'Inicio de contratación':
+            Obra.porcentaje_avance = 10
+            Obra.porcentaje_avance.save()
+            return 10
+        elif self.etapa.tipoEtapa == 'Adjudicación de obra':
+            Obra.porcentaje_avance = 20
+            Obra.porcentaje_avance.save()
+            return 20
+        elif self.etapa.tipoEtapa == 'Inicio de obra':
+            Obra.porcentaje_avance = 30
+            Obra.porcentaje_avance.save()
+            return 30
+        elif self.etapa.tipoEtapa == 'Actualización de porcentaje de avance':
+            Obra.porcentaje_avance = 40
+            Obra.porcentaje_avance.save()
+            return 40
+        elif self.etapa.tipoEtapa == 'Incremento de plazo':
+            Obra.porcentaje_avance = 60
+            Obra.porcentaje_avance.save()
+            return 60
+        elif self.etapa.tipoEtapa == 'Incremento de mano de obra':
+            Obra.porcentaje_avance = 80
+            Obra.porcentaje_avance.save()
+            return 80
+        elif self.etapa.tipoEtapa == 'Finalizada':
+            Obra.porcentaje_avance = 100
+            Obra.porcentaje_avance.save()
+            return 100
+        elif self.etapa.tipoEtapa == 'Obra rescindida':
+            Obra.porcentaje_avance = 0
+            Obra.porcentaje_avance.save()
+            return 0
+        else:
+            Obra.porcentaje_avance = 0
+            Obra.porcentaje_avance.save()
+            return 0
+
     def nuevo_proyecto(self):
         if self.porcentajeAvance > 0:
             print('No está permitido retroceder de etapa.')
@@ -89,7 +136,12 @@ class Obras():
             print('Avance exitoso.')
 
     def rescindir_obra(self):
-        pass
+        if self.porcentajeAvance < 0:
+            print('No es posible rescindir la obra.')
+        else:
+            self.etapa.tipoEtapa = 'Obra rescindida'
+            self.etapa.save()
+            print('Obra rescindida.')
 
     def obtener_avance_por_id(id):
         try:
