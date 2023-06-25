@@ -152,7 +152,7 @@ def main():
                 if opcionEd == "1":
                     idColocar = int(input("Ingrese el id:"))
                     try:
-                        obra = Obras.select().join(Etapa).where(Obra.id == idColocar).scalar()
+                        obra = Obras.obtener_avance_por_id(idColocar)
                     except Exception as i:
                         print("No se encontró ninguna obra con el ID especificado.", i)
                         return
@@ -202,6 +202,6 @@ def main():
             errorRojo = '\033[31m'
             print_color("Opción inválida. Por favor, ingrese una opción válida.", errorRojo)
 
-#tst sda
+
 if __name__ == "__main__":
     main()

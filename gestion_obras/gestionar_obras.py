@@ -63,6 +63,7 @@ class GestionarObra:
             )
             print("Guardando obra...")
             # save en db
+            
             obra.save()
 
     @classmethod
@@ -98,7 +99,7 @@ class GestionarObra:
         entorno = input("Entorno: ")
         nombre = input("Nombre: ")
         # Opciones para etapa
-        print("Selecciona una opción para la etapa:")
+        print("Selecciona una opción para la etapa")
         print("1. Sin iniciar")
         print("2. Pausada")
         print("3. Finalizado")
@@ -162,7 +163,7 @@ class GestionarObra:
         else:
             etapa = "Sin Datos"
         # Opciones para tipo
-        print("Selecciona una opción para el tipo:")
+        print("Selecciona una opción para el tipo")
         print("1. Sin Datos")
         print("2. Infraestructura")
         print("3. Hidráulica e Infraestructura/ Espacio Público")
@@ -343,6 +344,7 @@ class GestionarObra:
         )
 
         # guardo la nueva obra
+        
         obra.save()
 
         return obra
@@ -365,9 +367,9 @@ class GestionarObra:
         color_cyan = '\033[96m'
         color_reset = '\033[0m'
         print(" ")
-        print("Indicadores:")
+        print("Indicadores")
         print(f"{color_cyan}Total de obras: {total_obras}{color_reset}")
         print(f"{color_cyan}Porcentaje de avance promedio: {porcentaje_avance_promedio}{color_reset}")
         print(" ")
 
-        return obras
+        return obras 
