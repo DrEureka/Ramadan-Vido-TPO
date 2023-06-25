@@ -152,7 +152,7 @@ def main():
                 if opcionEd == "1":
                     idColocar = int(input("Ingrese el id:"))
                     try:
-                        obra = Obra.select().join(Etapa).where(Obra.id == idColocar).scalar()
+                        obra = Obras.select().join(Etapa).where(Obra.id == idColocar).scalar()
                     except Exception as i:
                         print("No se encontró ninguna obra con el ID especificado.", i)
                         return
