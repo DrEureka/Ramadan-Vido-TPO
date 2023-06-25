@@ -16,7 +16,7 @@ class Obras():
 
     @property
     def porcentajeAvance(self):
-        if self.etapa.tipoEtapa == 'Nuevo proyecto':
+        if self.etapa.tipoEtapa == 'Proyecto':
             Obra.porcentaje_avance = 0
             Obra.porcentaje_avance.save()
             return 0

@@ -152,7 +152,8 @@ def main():
                 if opcionEd == "1":
                     idColocar = int(input("Ingrese el id:"))
                     try:
-                        obra = Obras.obtener_avance_por_id(idColocar)
+                        obra = Obra.select().join(Etapa).where(Obra.id == idColocar)
+                        print(obra)
                     except Exception as i:
                         print("No se encontró ninguna obra con el ID especificado.", i)
                         return
@@ -162,7 +163,7 @@ def main():
                             subMenuAvances()
                             opcionAv = input('Ingrese la opci[on deseada: ')
                             if opcionAv == "1":
-                                Obras.nuevo_proyecto()
+                                Obras.nuevo_proyecto(obra)
                             elif opcionAv == "2":
                                 Obras.iniciar_contratacion()
                             elif opcionAv == "3":
