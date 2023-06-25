@@ -108,8 +108,6 @@ class Obra(BaseModel):
     compromiso = ForeignKeyField(Compromiso, backref='obras')
 
 
-
-
 def create_tables():
     with database.atomic():
         database.create_tables([
@@ -122,6 +120,10 @@ try:
     database.connect()
 except OperationalError:
     print("La base de datos ya existe. No se creará una nueva.")
+    database.close()
 else:
+    database.close()
+    database.connect()
     create_tables()
     print("Se ha creado la base de datos y las tablas.")
+    database.close()

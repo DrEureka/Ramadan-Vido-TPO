@@ -3,23 +3,22 @@ from dao.modelo_orm import Entorno, Etapa, Tipo, AreaResponsable, Direccion, Lic
 from peewee import fn
 
 
+class Obras:
+    def __init__(self, obra, tipo_etapa, porcentajeAvance) -> None:
+        self.tipo_etapa = tipo_etapa
+        self.porcentaje_avance = porcentajeAvance
 
-
-class Obras():
-    def __init__(self, avance, porcentajeAvance) -> None:
-        self.avance = avance
-        self.porcentajeAvance = porcentajeAvance
-
-    @property
-    def avance(self):
-        return self.etapa.tipoEtapa
+    #  @property
+    #  def avance(self):
+    #      return self.etapa.tipoEtapa
 
     @property
     def porcentajeAvance(self):
-        if self.etapa.tipoEtapa == 'Proyecto':
-            Obra.porcentaje_avance = 0
-            Obra.porcentaje_avance.save()
+        if self.etapa.tipoEtapa == 'Sin iniciar':
+            self.porcentaje_avance = 0
+            self.save()
             return 0
+
         elif self.etapa.tipoEtapa == 'Inicio de contratación':
             Obra.porcentaje_avance = 10
             Obra.porcentaje_avance.save()
@@ -57,12 +56,20 @@ class Obras():
             Obra.porcentaje_avance.save()
             return 0
 
-    def nuevo_proyecto(self):
-        if self.porcentajeAvance > 0:
+    def nuevo_proyecto(self, obra, porcentaje_avance, tipo_etapa):
+        print(obra)
+        print(tipo_etapa)
+        print(porcentaje_avance)
+        if porcentaje_avance > 0:
             print('No está permitido retroceder de etapa.')
         else:
-            self.etapa.tipoEtapa = 'Nuevo proyecto'
-            self.etapa.save()
+            database.close()
+            database.connect()
+            obra_actualizada = Obra.get_by_id(obra.id)
+            Etapa.update(tipoEtapa='Sin iniciar').where(Etapa.id == obra_actualizada.id).execute()
+            obra_actualizada.porcentaje_avance = porcentaje_avance
+            obra_actualizada.save()
+            database.close()
             print('Proyecto iniciado con éxito.')
 
     def iniciar_contratacion(self):
@@ -156,10 +163,11 @@ class Obras():
         except Obra.DoesNotExist:
             return None
 
-    def obtener_avance_por_nombre(nombre):
+    def obtener_avance_por_nombre(self):
         try:
             existeObra = (
-                Obra.select(Obra.id, Obra.nombre, Etapa.tipoEtapa).join(Etapa).where(Obra.nombre ** f'%{nombre}%').order_by(fn.LENGTH(Obra.nombre))
+                Obra.select(Obra.id, Obra.nombre, Etapa.tipoEtapa).join(Etapa).where(
+                    Obra.nombre ** f'%{self}%').order_by(fn.LENGTH(Obra.nombre))
             )
             resultados = []
             for obra in existeObra:

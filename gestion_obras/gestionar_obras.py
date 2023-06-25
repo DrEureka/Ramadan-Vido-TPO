@@ -12,6 +12,7 @@ class GestionarObra:
 
     @classmethod
     def extraer_datos(cls, archivo_csv):
+        database.connect()
         ruta_archivo_sanitizado = os.path.join("descarga", os.path.splitext(os.path.basename(archivo_csv))[0] + ".csv")
         # Leer el archivo CSV con pandas
         df = pd.read_csv(ruta_archivo_sanitizado)
@@ -65,6 +66,7 @@ class GestionarObra:
             # save en db
             
             obra.save()
+            database.close()
 
     @classmethod
     def mapear_orm(cls):
@@ -309,6 +311,8 @@ class GestionarObra:
             financiamiento = "Sin Datos"
 
         # Crear instancia de obra
+        database.close()
+        database.connect()
         obra = Obra(
             entorno=Entorno.create(zona=entorno),
             nombre=nombre,
@@ -346,11 +350,14 @@ class GestionarObra:
         # guardo la nueva obra
         
         obra.save()
+        database.close()
 
         return obra
 
     @staticmethod
     def obtener_indicadores():
+        database.close()
+        database.connect()
         obras = Obra.select()
 
         total_obras = len(obras)
@@ -371,5 +378,5 @@ class GestionarObra:
         print(f"{color_cyan}Total de obras: {total_obras}{color_reset}")
         print(f"{color_cyan}Porcentaje de avance promedio: {porcentaje_avance_promedio}{color_reset}")
         print(" ")
-
-        return obras 
+        database.close()
+        return obras
