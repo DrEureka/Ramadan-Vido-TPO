@@ -93,8 +93,10 @@ class Obras:
     def adjudicar_obra(self, obra, porcentaje_avance):
         if porcentaje_avance < 20:
             print('No se puede retroceder el avance de la obra.')
+            return
         elif porcentaje_avance > 20:
             print('No es posible adelantarse en el avance de la obra.')
+            return
         else:
             database.close()
             database.connect()
