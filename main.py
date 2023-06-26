@@ -184,11 +184,11 @@ def main():
                             elif opcionAv == "6":
                                 obras.incrementar_plazo()
                             elif opcionAv == "7":
-                                obras.incrementar_mano_obra()
+                                obras.incrementar_mano_obra(obra, tipo_etapa, porcentaje_avance)
                             elif opcionAv == "8":
-                                obras.finalizar_obra()
+                                obras.finalizar_obra(obra, porcentaje_avance, tipo_etapa)
                             elif opcionAv == "9":
-                                obras.rescindir_obra()
+                                obras.rescindir_obra(obra, porcentaje_avance, tipo_etapa)
                             else:
                                 errorRojo = '\033[31m'
                                 print_color("Opción inválida. Por favor, ingrese una opción válida.", errorRojo)
