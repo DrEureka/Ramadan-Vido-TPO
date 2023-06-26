@@ -70,6 +70,7 @@ class Obras:
             obra_actualizada.save()
             database.close()
             print('Proyecto iniciado con éxito.')
+            print("")
 
     def iniciar_contratacion(self, obra, porcentaje_avance):
         if porcentaje_avance > 10:
@@ -84,11 +85,13 @@ class Obras:
             obra_actualizada = Obra.get_by_id(obra.id)
             Etapa.update(tipoEtapa='Inicio de contratacion').where(Etapa.id == obra_actualizada.id).execute()
             Contratacion.update(tipo=tipo_contratacion).where(Contratacion.id == obra_actualizada.id).execute()
-            Contratacion.update(nro_contratacion=nro_contratacion).where(Contratacion.id == obra_actualizada.id).execute()
+            Contratacion.update(nro_contratacion=nro_contratacion).where(
+                Contratacion.id == obra_actualizada.id).execute()
             obra_actualizada.porcentaje_avance = 20
             obra_actualizada.save()
             database.close()
             print('Avance exitoso.')
+            print("")
 
     def adjudicar_obra(self, obra, porcentaje_avance):
         if porcentaje_avance > 20:
@@ -119,11 +122,12 @@ class Obras:
             obra_actualizada.save()
             database.close()
             print('Avance exitoso.')
+            print("")
 
     def iniciar_obra(self, obra):
         database.close()
         database.connect()
-       # print("Dato de id", obra)
+        # print("Dato de id", obra)
 
         # Valores
         destacada = input("¿La obra es destacada? (SI/NO): ")
@@ -172,24 +176,35 @@ class Obras:
         print("")
 
     def actualizar_porcentaje_avance(self, obra, porcentaje_avance):
-            database.close()
-            database.connect()
-            obra_actualizada = Obra.get_by_id(obra.id)
-            Etapa.update(tipoEtapa='Actualización del porcentaje de avance').where(Etapa.id == obra_actualizada.id).execute()
-            avanceActual = porcentaje_avance
-            obra_actualizada.save()
-            database.close()
-            print('El porcentaje de avance actual de la obra es de:', avanceActual)
+        database.close()
+        database.connect()
+        obra_actualizada = Obra.get_by_id(obra.id)
+        Etapa.update(tipoEtapa='Actualización del porcentaje de avance').where(
+            Etapa.id == obra_actualizada.id).execute()
+        avanceActual = porcentaje_avance
+        obra_actualizada.save()
+        database.close()
+        print('El porcentaje de avance actual de la obra es de:', avanceActual)
 
-    def incrementar_plazo(self, obra, porcentaje_avance, tipo_etapa):
-        if self.porcentajeAvance < 40:
-            print('No se puede retroceder el avance de la obra.')
-        elif self.porcentajeAvance > 60:
-            print('No es posible adelantarse en el avance de la obra.')
+    print("")
+
+    def incrementar_plazo(self, obra):
+        database.close()
+        database.connect()
+        plazo_actual = obra.plazo_meses
+        print("Plazo actual:", plazo_actual)
+        nuevo_plazo = int(input("Ingrese el nuevo plazo en meses: "))
+
+        if nuevo_plazo >= plazo_actual:
+            obra.plazo_meses = nuevo_plazo
+            obra.save()
+            print("Plazo actualizado exitosamente.")
+
         else:
-            self.etapa.tipoEtapa = 'Incremento de plazo'
-            self.etapa.save()
-            print('Avance exitoso.')
+            print("El nuevo plazo debe ser mayor o igual al plazo actual.")
+        database.close()
+        print("El plazo de la obra se ha incrementado exitosamente.")
+        print("")
 
     def incrementar_mano_obra(self, obra, porcentaje_avance, tipo_etapa):
         if self.porcentajeAvance < 60:
@@ -200,6 +215,7 @@ class Obras:
             self.etapa.tipoEtapa = 'Incremento de mano de obra'
             self.etapa.save()
             print('Avance exitoso.')
+        print("")
 
     def finalizar_obra(self, obra, porcentaje_avance, tipo_etapa):
         database.close()

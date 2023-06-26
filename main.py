@@ -190,7 +190,7 @@ def main():
                             elif opcionAv == "5":
                                 obras.actualizar_porcentaje_avance(obra, porcentaje_avance)
                             elif opcionAv == "6":
-                                obras.incrementar_plazo()
+                                obras.incrementar_plazo(obra)
                             elif opcionAv == "7":
                                 obras.incrementar_mano_obra(obra, tipo_etapa, porcentaje_avance)
                             elif opcionAv == "8":
