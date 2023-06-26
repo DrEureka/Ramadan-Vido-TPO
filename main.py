@@ -45,7 +45,7 @@ def subMenuEdAvance():
 def subMenuAvances():
     print('Elija una opción:')
     print('1. Nuevo proyecto')
-    print('2. Iniciar contrataci[on]')
+    print('2. Iniciar contratación')
     print('3. Adjudicar obra')
     print('4. Iniciar obra')
     print('5. Actualizar porcentaje de avance')
@@ -150,7 +150,7 @@ def main():
                 subMenuEdAvance()
                 opcionEd = input("Ingrese la opción deseada: ")
                 if opcionEd == "1":
-                    idColocar = int(input("Ingrese el id:"))
+                    idColocar = int(input("Ingrese el id: "))
                     try:
 
                         obra = Obra.select().join(Etapa).where(Obra.id == idColocar).get()
@@ -172,7 +172,7 @@ def main():
                         color_reset = '\033[0m'
                         print(f"{color_cyan}Nombre de la obra seleccionada:{color_reset}", nombre_obra)
                         opcionAv = None
-                        while opcionAv != "0":
+                        while opcionAv != "0" and opcionAv != "9":
                             subMenuAvances()
                             nombre_obra = obra.nombre
                             color_cyan = '\033[32m'
@@ -188,7 +188,7 @@ def main():
                             elif opcionAv == "4":
                                 obras.iniciar_obra(obra)
                             elif opcionAv == "5":
-                                obras.actualizar_porcentaje_avance()
+                                obras.actualizar_porcentaje_avance(obra, porcentaje_avance)
                             elif opcionAv == "6":
                                 obras.incrementar_plazo()
                             elif opcionAv == "7":
@@ -197,6 +197,8 @@ def main():
                                 obras.finalizar_obra(obra, porcentaje_avance, tipo_etapa)
                             elif opcionAv == "9":
                                 obras.rescindir_obra(obra, porcentaje_avance, tipo_etapa)
+                            elif opcionAv == "0":
+                                break
                             else:
                                 errorRojo = '\033[31m'
                                 print_color("Opción inválida. Por favor, ingrese una opción válida.", errorRojo)

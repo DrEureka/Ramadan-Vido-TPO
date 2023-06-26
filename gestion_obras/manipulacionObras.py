@@ -72,10 +72,10 @@ class Obras:
             print('Proyecto iniciado con éxito.')
 
     def iniciar_contratacion(self, obra, porcentaje_avance):
-        if porcentaje_avance < 10:
+        if porcentaje_avance > 10:
             print('No se puede retroceder el avance de la obra.')
-        elif porcentaje_avance > 10:
-            print('No es posible retroceder en el avance de la obra.')
+        elif porcentaje_avance < 10:
+            print('No es posible adelantarse en el avance de la obra.')
         else:
             tipo_contratacion = input('Ingrese el tipo de contrataci[on]: ')
             nro_contratacion = input('Ingrese el n[umero de contrataci[on]')
@@ -91,10 +91,10 @@ class Obras:
             print('Avance exitoso.')
 
     def adjudicar_obra(self, obra, porcentaje_avance):
-        if porcentaje_avance < 20:
+        if porcentaje_avance > 20:
             print('No se puede retroceder el avance de la obra.')
             return
-        elif porcentaje_avance > 20:
+        elif porcentaje_avance < 20:
             print('No es posible adelantarse en el avance de la obra.')
             return
         else:
@@ -110,7 +110,7 @@ class Obras:
                 print("La empresa ingresada no existe en la base de datos.")
                 return
 
-            nro_expediente = input('Ingrese el número de contratación: ')
+            nro_expediente = input('Ingrese el número de expediente: ')
             obra_actualizada = Obra.get_by_id(obra.id)
             Etapa.update(tipoEtapa='Adjudicacion de obra').where(Etapa.id == obra_actualizada.id).execute()
             Licitacion.update(oferta_empresa=empresa).where(Licitacion.id == obra_actualizada.id).execute()
@@ -171,15 +171,15 @@ class Obras:
         print("La obra ha sido modificada exitosamente.")
         print("")
 
-    def actualizar_porcentaje_avance(self, obra, porcentaje_avance, tipo_etapa):
-        if self.porcentajeAvance < 30:
-            print('No se puede retroceder el avance de la obra.')
-        elif self.porcentajeAvance > 40:
-            print('No es posible adelantarse en el avance de la obra.')
-        else:
-            self.etapa.tipoEtapa = 'Actualización de porcentaje de avance'
-            self.etapa.save()
-            print('Avance exitoso.')
+    def actualizar_porcentaje_avance(self, obra, porcentaje_avance):
+            database.close()
+            database.connect()
+            obra_actualizada = Obra.get_by_id(obra.id)
+            Etapa.update(tipoEtapa='Actualización del porcentaje de avance').where(Etapa.id == obra_actualizada.id).execute()
+            avanceActual = porcentaje_avance
+            obra_actualizada.save()
+            database.close()
+            print('El porcentaje de avance actual de la obra es de:', avanceActual)
 
     def incrementar_plazo(self, obra, porcentaje_avance, tipo_etapa):
         if self.porcentajeAvance < 40:
