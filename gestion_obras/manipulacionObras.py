@@ -108,6 +108,7 @@ class Obras:
                 print(empresaABuscar)
             except Licitacion.DoesNotExist:
                 print("La empresa ingresada no existe en la base de datos.")
+                return
 
             nro_expediente = input('Ingrese el número de contratación: ')
             obra_actualizada = Obra.get_by_id(obra.id)
