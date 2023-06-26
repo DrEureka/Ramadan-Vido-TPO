@@ -124,8 +124,8 @@ class Obras:
         print("dato de id", obra)
         # valores
         destacada = input("¿La obra es destacada? (SI/NO): ")
-        fecha_inicio = input("Ingrese la fecha de inicio de la obra (DD-MM-AAAA): ")
-        fecha_fin_inicial = input("Ingrese la fecha de finalización inicial de la obra (DD-MM-AAAA): ")
+        fecha_inicio = input("Ingrese la fecha de inicio de la obra (DD/MM/AAAA): ")
+        fecha_fin_inicial = input("Ingrese la fecha de finalización inicial de la obra (DD/MM/AAAA): ")
         descripcion_financiamiento = input("Ingrese la descripción del financiamiento: ")
         cantidad_mano_obra = input("Ingrese la cantidad de mano de obra (entero): ")
 
