@@ -314,6 +314,7 @@ class GestionarObra:
         # Crear instancia de obra
         database.close()
         database.connect()
+        direccion = Direccion.create(comuna=comuna, barrio=barrio, ubicacion=direccion, lat=lat, lng=lng)
         obra = Obra(
             entorno=Entorno.create(zona=entorno),
             nombre=nombre,
@@ -322,9 +323,7 @@ class GestionarObra:
             area_responsable=AreaResponsable.create(ministerio=area_responsable),
             descripcion=descripcion,
             monto_contrato=monto_contrato,
-            comuna=Direccion.create(comuna=comuna),
-            barrio=Direccion.create(barrio=barrio),
-            direccion=Direccion.create(ubicacion=direccion, lat=lat, lng=lng),
+            direccion=direccion,
             fecha_inicio=fecha_inicio,
             fecha_fin_inicial=fecha_fin_inicial,
             plazo_meses=plazo_meses,
