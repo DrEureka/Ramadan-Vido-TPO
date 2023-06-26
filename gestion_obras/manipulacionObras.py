@@ -120,15 +120,28 @@ class Obras:
             database.close()
             print('Avance exitoso.')
 
-    def iniciar_obra(self, obra, porcentaje_avance, tipo_etapa):
-        if self.porcentajeAvance < 20:
-            print('No se puede retroceder el avance de la obra.')
-        elif self.porcentajeAvance > 30:
-            print('No es posible adelantarse en el avance de la obra.')
-        else:
-            self.etapa.tipoEtapa = 'Inicio de obra'
-            self.etapa.save()
-            print('Avance exitoso.')
+    def iniciar_obra(self, obra):
+        print("dato de id", obra)
+        # valores
+        destacada = input("¿La obra es destacada? (SI/NO): ")
+        fecha_inicio = input("Ingrese la fecha de inicio de la obra (YYYY-MM-DD): ")
+        fecha_fin_inicial = input("Ingrese la fecha de finalización inicial de la obra (YYYY-MM-DD): ")
+        descripcion_financiamiento = input("Ingrese la descripción del financiamiento: ")
+        cantidad_mano_obra = input("Ingrese la cantidad de mano de obra (entero): ")
+
+        # chequear los datos para guardar
+        obra.destacada = destacada
+        obra.fecha_inicio = fecha_inicio
+        obra.fecha_fin_inicial = fecha_fin_inicial
+
+        # financiamiento y obra
+        obra.financiamiento.descripcion = descripcion_financiamiento
+        obra.mano_obra.cantidad = int(cantidad_mano_obra)
+
+        # guardo en base
+        obra.save()
+
+        print("La obra ha sido iniciada exitosamente.")
 
     def actualizar_porcentaje_avance(self, obra, porcentaje_avance, tipo_etapa):
         if self.porcentajeAvance < 30:
