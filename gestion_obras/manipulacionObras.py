@@ -206,14 +206,19 @@ class Obras:
         print("El plazo de la obra se ha incrementado exitosamente.")
         print("")
 
-    def incrementar_mano_obra(self, obra, porcentaje_avance, tipo_etapa):
-        if self.porcentajeAvance < 60:
+    def incrementar_mano_obra(self, obra, porcentaje_avance):
+        if porcentaje_avance > 80:
             print('No se puede retroceder el avance de la obra.')
-        elif self.porcentajeAvance > 80:
+        elif porcentaje_avance < 80:
             print('No es posible adelantarse en el avance de la obra.')
         else:
-            self.etapa.tipoEtapa = 'Incremento de mano de obra'
-            self.etapa.save()
+            nro_mano_obra = input('Ingrese el número de mano de obra que desea agregar: ')
+            obra_actualizada = Obra.get_by_id(obra.id)
+            Etapa.update(tipoEtapa='Incremento de mano de obra').where(Etapa.id == obra_actualizada.id).execute()
+            ManoObra.update(cantidad=nro_mano_obra).where(ManoObra.id == obra_actualizada.id).execute()
+            obra_actualizada.porcentaje_avance = 90
+            obra_actualizada.save()
+            database.close()
             print('Avance exitoso.')
         print("")
 
