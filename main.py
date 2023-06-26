@@ -2,11 +2,13 @@ from gestion_obras.gestionar_obras import GestionarObra
 from gestion_obras.manipulacionObras import Obras
 from descarga.descarga_csv import descargar_archivo
 
-from gestion_obras.manipulacionObras import Entorno, Etapa, Tipo, AreaResponsable, Direccion, Licitacion, Contratacion, Beneficiario, ManoObra, Compromiso, Financiamiento, Obra
+from gestion_obras.manipulacionObras import Entorno, Etapa, Tipo, AreaResponsable, Direccion, Licitacion, Contratacion, \
+    Beneficiario, ManoObra, Compromiso, Financiamiento, Obra
 
 import sys
 import time
 import os
+
 
 def maquina_escribir(texto):
     for letra in texto:
@@ -16,9 +18,11 @@ def maquina_escribir(texto):
 
     sys.stdout.write('\n')
 
+
 def print_color(text, color):
     color_reset = '\033[0m'
     print(color + text + color_reset)
+
 
 def menu():
     print("Menú:")
@@ -31,16 +35,19 @@ def menu():
     print("7. Editar avance de obra")
     print("8. Salir")
 
+
 def subMenuObAvance():
     print('Elija una opción: ')
     print('1. filtrar avance por id')
     print('2. filtrar por nombre de obra')
     print('3. Atras')
 
+
 def subMenuEdAvance():
     print('Elija una opción:')
     print('1. Coloque el id de la obra a la que desea editar el avance')
     print('2. Atras')
+
 
 def subMenuAvances():
     print('Elija una opción:')
@@ -54,6 +61,7 @@ def subMenuAvances():
     print('8. Finalizar obra')
     print('9. Rescindir obra')
     print('0. Atras')
+
 
 def main():
     opcion = None
@@ -71,7 +79,7 @@ def main():
         elif opcion == "2":
             # crear db y verifico si existe
             if GestionarObra.db_existe():
-                todoOkVerde='\033[32m'
+                todoOkVerde = '\033[32m'
                 print_color("La base de datos ya está creada. No se realizará la creación nuevamente.", todoOkVerde)
 
             else:
@@ -80,7 +88,7 @@ def main():
                 print("Base de datos creada exitosamente.")
 
         elif opcion == "3":
-            atencionAmarillo= '\033[33m'
+            atencionAmarillo = '\033[33m'
             print_color("Cargando datos a la db por favor espere...", atencionAmarillo)
             # Gestionar obras
             ruta_archivo_csv = os.path.join(os.path.dirname(__file__), "descarga", "observatorio-de-obras-urbanas.csv")
@@ -89,7 +97,7 @@ def main():
             try:
                 if not Obra.select().exists():
                     GestionarObra.limpiar_datos(ruta_archivo_csv)
-                 #   GestionarObra.extraer_datos(ruta_archivo_sanitizado)
+                    #   GestionarObra.extraer_datos(ruta_archivo_sanitizado)
                     todoOkVerde = '\033[32m'
                     print_color("Carga completada.   ", todoOkVerde)
                     print_color("Obras gestionadas exitosamente.", todoOkVerde)
@@ -111,10 +119,10 @@ def main():
             # GestionarObra.extraer_datos(ruta_archivo_sanitizado)
             # print("Obras gestionadas exitosamente.")
         elif opcion == "4":
-            #obtengo los datos de la db
+            # obtengo los datos de la db
             GestionarObra.obtener_indicadores()
         elif opcion == "5":
-            #creo una nueva obra test....
+            # creo una nueva obra test....
             GestionarObra.nueva_obra()
 
         elif opcion == "6":
@@ -154,10 +162,10 @@ def main():
                     try:
 
                         obra = Obra.select().join(Etapa).where(Obra.id == idColocar).get()
-                      #  nombre_obra = obra.nombre
-                     #   color_cyan = '\033[32m'
-                     #   color_reset = '\033[0m'
-                    #    print(f"{color_cyan}Nombre de la obra seleccionada:{color_reset}", nombre_obra)
+                        #  nombre_obra = obra.nombre
+                        #   color_cyan = '\033[32m'
+                        #   color_reset = '\033[0m'
+                        #    print(f"{color_cyan}Nombre de la obra seleccionada:{color_reset}", nombre_obra)
                         porcentaje_avance = obra.porcentaje_avance
                         tipo_etapa = obra.etapa.tipoEtapa
 
@@ -213,7 +221,8 @@ def main():
             print("Materia: Desarrollo de Sistemas Orientados a Objetos")
             print("Curso: 1er Año")
             print("Profesor: Eduardo Iberti")
-            texto = (color + "Programa realizado por: Daniel, Ramadan.\nAlessandro Gabrielle, Vido Viloria."+color_reset)
+            texto = (
+                        color + "Programa realizado por: Daniel, Ramadan.\nAlessandro Gabrielle, Vido Viloria." + color_reset)
             maquina_escribir(texto)
 
             break
