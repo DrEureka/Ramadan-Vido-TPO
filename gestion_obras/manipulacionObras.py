@@ -101,21 +101,23 @@ class Obras:
             database.close()
             database.connect()
             empresa = input('Ingrese la obra a la que desea adjudicar la empresa: ')
-            empresaABuscar = Licitacion.get(Licitacion.oferta_empresa == empresa)
-            if empresaABuscar:
+
+            try:
+                empresaABuscar = Licitacion.get(Licitacion.oferta_empresa == empresa)
                 print("La empresa se ha cargado con éxito")
-            else:
+                print(empresaABuscar)
+            except Licitacion.DoesNotExist:
                 print("La empresa ingresada no existe en la base de datos.")
 
-        nro_expediente = input('Ingrese el n[umero de contrataci[on]')
-        obra_actualizada = Obra.get_by_id(obra.id)
-        Etapa.update(tipoEtapa='Adjudicacion de obra').where(Etapa.id == obra_actualizada.id).execute()
-        Licitacion.update(oferta_empresa=empresa).where(Licitacion.id == obra_actualizada.id).execute()
-        Obra.update(expediente_numero=nro_expediente).where(Obra.id == obra_actualizada.id).execute()
-        obra_actualizada.porcentaje_avance = 30
-        obra_actualizada.save()
-        database.close()
-        print('Avance exitoso.')
+            nro_expediente = input('Ingrese el número de contratación: ')
+            obra_actualizada = Obra.get_by_id(obra.id)
+            Etapa.update(tipoEtapa='Adjudicacion de obra').where(Etapa.id == obra_actualizada.id).execute()
+            Licitacion.update(oferta_empresa=empresa).where(Licitacion.id == obra_actualizada.id).execute()
+            Obra.update(expediente_numero=nro_expediente).where(Obra.id == obra_actualizada.id).execute()
+            obra_actualizada.porcentaje_avance = 30
+            obra_actualizada.save()
+            database.close()
+            print('Avance exitoso.')
 
     def iniciar_obra(self, obra, porcentaje_avance, tipo_etapa):
         if self.porcentajeAvance < 20:
