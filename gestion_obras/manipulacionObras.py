@@ -78,8 +78,8 @@ class Obras:
         elif porcentaje_avance < 10:
             print('No es posible adelantarse en el avance de la obra.')
         else:
-            tipo_contratacion = input('Ingrese el tipo de contrataci[on]: ')
-            nro_contratacion = input('Ingrese el n[umero de contrataci[on]')
+            tipo_contratacion = input('Ingrese el tipo de contratación: ')
+            nro_contratacion = input('Ingrese el n[umero de contratación: ')
             database.close()
             database.connect()
             obra_actualizada = Obra.get_by_id(obra.id)
@@ -92,7 +92,7 @@ class Obras:
             database.close()
             print('Avance exitoso.')
             print("")
-
+            
     def adjudicar_obra(self, obra, porcentaje_avance):
         if porcentaje_avance > 20:
             print('No se puede retroceder el avance de la obra.')

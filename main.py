@@ -189,22 +189,31 @@ def main():
                             opcionAv = input('Ingrese la opción deseada: ')
                             if opcionAv == "1":
                                 obras.nuevo_proyecto(obra, porcentaje_avance)
+                                break
                             elif opcionAv == "2":
                                 obras.iniciar_contratacion(obra, porcentaje_avance)
+                                break
                             elif opcionAv == "3":
                                 obras.adjudicar_obra(obra, porcentaje_avance)
+                                break
                             elif opcionAv == "4":
                                 obras.iniciar_obra(obra)
+                                break
                             elif opcionAv == "5":
                                 obras.actualizar_porcentaje_avance(obra, porcentaje_avance)
+                                break
                             elif opcionAv == "6":
                                 obras.incrementar_plazo(obra)
+                                break
                             elif opcionAv == "7":
                                 obras.incrementar_mano_obra(obra, porcentaje_avance)
+                                break
                             elif opcionAv == "8":
                                 obras.finalizar_obra(obra, porcentaje_avance, tipo_etapa)
+                                break
                             elif opcionAv == "9":
                                 obras.rescindir_obra(obra, porcentaje_avance, tipo_etapa)
+                                break
                             elif opcionAv == "0":
                                 break
                             else:
