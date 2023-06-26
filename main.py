@@ -174,7 +174,7 @@ def main():
                             elif opcionAv == "3":
                                 obras.adjudicar_obra(obra, porcentaje_avance)
                             elif opcionAv == "4":
-                                obras.iniciar_obra()
+                                obras.iniciar_obra(obra)
                             elif opcionAv == "5":
                                 obras.actualizar_porcentaje_avance()
                             elif opcionAv == "6":
