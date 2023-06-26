@@ -400,19 +400,20 @@ class GestionarObra:
                 .where(Direccion.comuna == 1, Etapa.tipoEtapa == "Finalizada")
                 .count()
         )
-        print(f"{color_cyan}Cantidad de obras 'Finalizadas' en la comuna 1:{color_reset} {cantidad_obras_finalizadas_comuna1}")
+        print(
+            f"{color_cyan}Cantidad de obras 'Finalizadas' en la comuna 1:{color_reset} {cantidad_obras_finalizadas_comuna1}")
         print("")
         # cantidad de obras finalizadas con plazo 24 meses
 
         cantidad_obras_finalizadas_plazo_24m = Obra.select().join(Etapa).where(Etapa.tipoEtapa == "Finalizada",
-                                                                   Obra.plazo_meses <= 24).count()
+                                                                               Obra.plazo_meses <= 24).count()
         print(
             f"{color_cyan}Cantidad de obras 'Finalizadas' en un plazo menor o igual a 24 meses: {color_reset}{cantidad_obras_finalizadas_plazo_24m}")
 
-
-        print(" ")
+        print("")
         print(f"{color_cyan}Total de obras:{color_reset} {total_obras}")
-        print(f"{color_cyan}Porcentaje de avance promedio en todas las obras:{color_reset} {porcentaje_avance_promedio}")
+        print(
+            f"{color_cyan}Porcentaje de avance promedio en todas las obras:{color_reset} {porcentaje_avance_promedio}")
         print(" ")
         database.close()
         return obras
