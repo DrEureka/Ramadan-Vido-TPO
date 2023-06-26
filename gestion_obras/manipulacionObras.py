@@ -202,20 +202,14 @@ class Obras:
             print('Avance exitoso.')
 
     def finalizar_obra(self, obra, porcentaje_avance, tipo_etapa):
-
-        if porcentaje_avance < 100:
-            print('No se puede retroceder el avance de la obra.')
-        elif porcentaje_avance > 100:
-            print('No es posible superar el máximo alcanzado en el avance.')
-        else:
-            database.close()
-            database.connect()
-            obra_actualizada = Obra.get_by_id(obra.id)
-            Etapa.update(tipoEtapa='Finalizada').where(Etapa.id == obra_actualizada.id).execute()
-            obra_actualizada.porcentaje_avance = 100
-            obra_actualizada.save()
-            database.close()
-            print('Obra finalizada con éxito.')
+        database.close()
+        database.connect()
+        obra_actualizada = Obra.get_by_id(obra.id)
+        Etapa.update(tipoEtapa='Finalizada').where(Etapa.id == obra_actualizada.id).execute()
+        obra_actualizada.porcentaje_avance = 100
+        obra_actualizada.save()
+        database.close()
+        print('Obra finalizada con éxito.')
         print("")
 
     def rescindir_obra(self, obra, porcentaje_avance, tipo_etapa):

@@ -154,10 +154,10 @@ def main():
                     try:
 
                         obra = Obra.select().join(Etapa).where(Obra.id == idColocar).get()
-                        nombre_obra = obra.nombre
-                        color_cyan = '\033[32m'
-                        color_reset = '\033[0m'
-                        print(f"{color_cyan}Nombre de la obra seleccionada:{color_reset}", nombre_obra)
+                      #  nombre_obra = obra.nombre
+                     #   color_cyan = '\033[32m'
+                     #   color_reset = '\033[0m'
+                    #    print(f"{color_cyan}Nombre de la obra seleccionada:{color_reset}", nombre_obra)
                         porcentaje_avance = obra.porcentaje_avance
                         tipo_etapa = obra.etapa.tipoEtapa
 
@@ -167,9 +167,17 @@ def main():
                         return
                     if obra:
                         obras = Obras(obra, tipo_etapa, porcentaje_avance)
+                        nombre_obra = obra.nombre
+                        color_cyan = '\033[32m'
+                        color_reset = '\033[0m'
+                        print(f"{color_cyan}Nombre de la obra seleccionada:{color_reset}", nombre_obra)
                         opcionAv = None
                         while opcionAv != "0":
                             subMenuAvances()
+                            nombre_obra = obra.nombre
+                            color_cyan = '\033[32m'
+                            color_reset = '\033[0m'
+                            print(f"{color_cyan}Nombre de la obra seleccionada:{color_reset}", nombre_obra)
                             opcionAv = input('Ingrese la opción deseada: ')
                             if opcionAv == "1":
                                 obras.nuevo_proyecto(obra, porcentaje_avance)
