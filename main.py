@@ -154,6 +154,10 @@ def main():
                     try:
 
                         obra = Obra.select().join(Etapa).where(Obra.id == idColocar).get()
+                      #  nombre_obra = obra.nombre
+                     #   color_cyan = '\033[32m'
+                     #   color_reset = '\033[0m'
+                    #    print(f"{color_cyan}Nombre de la obra seleccionada:{color_reset}", nombre_obra)
                         porcentaje_avance = obra.porcentaje_avance
                         tipo_etapa = obra.etapa.tipoEtapa
 
@@ -163,9 +167,17 @@ def main():
                         return
                     if obra:
                         obras = Obras(obra, tipo_etapa, porcentaje_avance)
+                        nombre_obra = obra.nombre
+                        color_cyan = '\033[32m'
+                        color_reset = '\033[0m'
+                        print(f"{color_cyan}Nombre de la obra seleccionada:{color_reset}", nombre_obra)
                         opcionAv = None
                         while opcionAv != "0":
                             subMenuAvances()
+                            nombre_obra = obra.nombre
+                            color_cyan = '\033[32m'
+                            color_reset = '\033[0m'
+                            print(f"{color_cyan}Nombre de la obra seleccionada:{color_reset}", nombre_obra)
                             opcionAv = input('Ingrese la opción deseada: ')
                             if opcionAv == "1":
                                 obras.nuevo_proyecto(obra, porcentaje_avance)
@@ -180,11 +192,11 @@ def main():
                             elif opcionAv == "6":
                                 obras.incrementar_plazo()
                             elif opcionAv == "7":
-                                obras.incrementar_mano_obra()
+                                obras.incrementar_mano_obra(obra, tipo_etapa, porcentaje_avance)
                             elif opcionAv == "8":
-                                obras.finalizar_obra()
+                                obras.finalizar_obra(obra, porcentaje_avance, tipo_etapa)
                             elif opcionAv == "9":
-                                obras.rescindir_obra()
+                                obras.rescindir_obra(obra, porcentaje_avance, tipo_etapa)
                             else:
                                 errorRojo = '\033[31m'
                                 print_color("Opción inválida. Por favor, ingrese una opción válida.", errorRojo)

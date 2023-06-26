@@ -121,27 +121,55 @@ class Obras:
             print('Avance exitoso.')
 
     def iniciar_obra(self, obra):
-        print("dato de id", obra)
-        # valores
+        database.close()
+        database.connect()
+       # print("Dato de id", obra)
+
+        # Valores
         destacada = input("¿La obra es destacada? (SI/NO): ")
-        fecha_inicio = input("Ingrese la fecha de inicio de la obra (YYYY-MM-DD): ")
-        fecha_fin_inicial = input("Ingrese la fecha de finalización inicial de la obra (YYYY-MM-DD): ")
+        fecha_inicio = input("Ingrese la fecha de inicio de la obra (DD/MM/AAAA): ")
+        fecha_fin_inicial = input("Ingrese la fecha de finalización inicial de la obra (DD/MM/AAAA): ")
+
+        # obtengo listado de financiamiento
+        descripciones_financiamiento = (Financiamiento
+                                        .select(Financiamiento.descripcion)
+                                        .distinct())
+
+        # muestro listado de opciones
+        print("Opciones de descripción de financiamiento:")
+        for financiamiento in descripciones_financiamiento:
+            print(financiamiento.descripcion)
+
+        # dame datos
         descripcion_financiamiento = input("Ingrese la descripción del financiamiento: ")
+
         cantidad_mano_obra = input("Ingrese la cantidad de mano de obra (entero): ")
 
-        # chequear los datos para guardar
+        # datos para guardar en obra
         obra.destacada = destacada
         obra.fecha_inicio = fecha_inicio
         obra.fecha_fin_inicial = fecha_fin_inicial
 
-        # financiamiento y obra
-        obra.financiamiento.descripcion = descripcion_financiamiento
-        obra.mano_obra.cantidad = int(cantidad_mano_obra)
+        # obtengo el id de obra igual a mano de obra
+        mano_obra = ManoObra.get(ManoObra.id == obra)
 
-        # guardo en base
+        # actualizo obra
+        mano_obra.cantidad = cantidad_mano_obra
+        mano_obra.save()
+
+        # obtengo el id de obra igual a financiamiento
+        financiamiento = Financiamiento.get(Financiamiento.id == obra)
+
+        # actualiza financiamineto
+        financiamiento.descripcion = descripcion_financiamiento
+        financiamiento.save()
+
+        # guardo en base de datos
         obra.save()
 
-        print("La obra ha sido iniciada exitosamente.")
+        database.close()
+        print("La obra ha sido modificada exitosamente.")
+        print("")
 
     def actualizar_porcentaje_avance(self, obra, porcentaje_avance, tipo_etapa):
         if self.porcentajeAvance < 30:
@@ -174,19 +202,15 @@ class Obras:
             print('Avance exitoso.')
 
     def finalizar_obra(self, obra, porcentaje_avance, tipo_etapa):
-        if porcentaje_avance < 100:
-            print('No se puede retroceder el avance de la obra.')
-        elif porcentaje_avance > 100:
-            print('No es posible superar el máximo alcanzado en el avance.')
-        else:
-            database.close()
-            database.connect()
-            obra_actualizada = Obra.get_by_id(obra.id)
-            Etapa.update(tipoEtapa='Finalizada').where(Etapa.id == obra_actualizada.id).execute()
-            obra_actualizada.porcentaje_avance = 100
-            obra_actualizada.save()
-            database.close()
-            print('Obra finalizada con éxito.')
+        database.close()
+        database.connect()
+        obra_actualizada = Obra.get_by_id(obra.id)
+        Etapa.update(tipoEtapa='Finalizada').where(Etapa.id == obra_actualizada.id).execute()
+        obra_actualizada.porcentaje_avance = 100
+        obra_actualizada.save()
+        database.close()
+        print('Obra finalizada con éxito.')
+        print("")
 
     def rescindir_obra(self, obra, porcentaje_avance, tipo_etapa):
         if porcentaje_avance < 0:
@@ -200,6 +224,7 @@ class Obras:
             obra_actualizada.save()
             database.close()
             print('Obra rescindida con éxito.')
+        print("")
 
     def obtener_avance_por_id(id):
         try:
