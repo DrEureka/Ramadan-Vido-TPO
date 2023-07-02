@@ -228,7 +228,6 @@ def main():
             color_reset = '\033[0m'
             print("Trabajo Práctico Final Integrador 2023\n")
             print("Materia: Desarrollo de Sistemas Orientados a Objetos")
-            print("Curso: 1er Año")
             print("Profesor: Eduardo Iberti")
             texto = (
                         color + "Programa realizado por: Daniel, Ramadan.\nAlessandro Gabrielle, Vido Viloria." + color_reset)
